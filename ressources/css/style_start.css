@@ -1,12 +1,40 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:200,400,400i,700|Roboto+Slab:700');
 
-    #h1
+    header
     {
-        
-       background-color: orange;
-       
-       
-        
+        position:relative;
+        left : 0%;
+        right: 0%;
+        background-color: red;
+        Color : white;
+        border : 1px solid transparent;
+        padding : 0;
+        font : bold 11px Batang, arial, serif;
+        list-style-type : none;
+        margin-top : 0;
+        width : 100%;
+     
+    }
+    
+    header h1
+    {
+        position : relative;
+        left : 50%;
+        margin-top : 0;
+        width : 430px;
+        margin-left : -215px; /* la moitié de width */
+        border : 1px solid transparent;
+        padding : 0;
+        font : bold 11px Batang, arial, serif;
+        list-style-type : none;
+        padding-bottom:25px;
+    }
+    
+    nav
+    {
+        padding-bottom:25px;
+        background-color:black;
+        width : 100%;
     }
 
     #onglets
@@ -15,14 +43,19 @@
         font : bold 11px Batang, arial, serif;
         list-style-type : none;
         padding-bottom : 33px; 
-         
+        border : 1px solid transparent;
+        padding : 0;
+        font : bold 11px Batang, arial, serif;
+        list-style-type : none;
+        margin-top : 0;
+        width : 100%;
+        
+      
     }
 
     #onglets li
     {
          float : left;
-         text-align:justify;
-         text-justify: auto;
          height : inherit; /* à modifier suivant la taille de la police pour centrer le texte dans l'onglet */
          background-color: black;
          Color : white;
@@ -48,3 +81,11 @@
         background : black;
         color:red;
     }
+    
+    main
+    {
+        background-color:white !important;
+    }
+    
+    
+    
