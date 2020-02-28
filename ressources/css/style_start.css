@@ -43,7 +43,6 @@
         border : 1px solid transparent;
         padding : 0;
         font : bold 11px Batang, arial, serif;
-        list-style-type : none;
         display: block;
         background-color: black;
         height : 32px;
@@ -92,12 +91,12 @@
         height : 18px;
         
     }
-    #articles article p,main aside  {
+    header + p, main aside {
         display:flex;
-        flex-direction:row;
-        flex-wrap: nowrap;
-       
+        flex-flow: row nowrap;
     }
+    
+
     
     
     article header
@@ -123,17 +122,24 @@
         margin-top:-5px;
         Color : grey;
         text-align:right;
-        display:flex;
-        width:70%;
     }
     
-    article p
+    article>p
     {
         /* texte de description */
-        flex-basis:70%;
+        width: 60%;
+        
     }
     
-    aside div   
+    aside
+    {
+        position:relative;
+        width: 40%;
+        padding: 0;
+        margin:0;
+    }
+    
+    aside div 
     {
         /* tableau fiche signalétique */
         flex-basis:30%;
@@ -147,13 +153,16 @@
         background-color:red;
         Color: white;
         padding:0;
+        margin:0;
        
     }
     div ul{
-        
+        padding : 0;
+        margin:0;
     }
     div ul li{
          list-style-type:none;
+         padding : 0;
     }
     
     
