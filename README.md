@@ -1,2 +1,2 @@
-# Escape-the-Corona
+# GET HOME NOW !
 Jeux en HTML5
