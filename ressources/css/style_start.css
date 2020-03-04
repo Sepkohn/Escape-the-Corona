@@ -162,36 +162,13 @@ aside li{
 
 /*********** mockups jeu **/
 
-div.mockup {
-	width : 32%;
-	height : auto;
-	float : left;
-	padding : 1em;
-}
+
 
 .image {
 	max-width : 100%;
 	max-height : auto;
 }
 
-.mockup p {
-	text-align: center;
-	font-weight : bold;
-}
-
-/************ mockups site **/
-
-div.mockup-site img, #processus {
-	display: block;
-	margin : 0 auto;
-	width: 70%;
-	height : auto;
-	padding : 1em;
-}
-
-.mockup-site {
-	text-align: center;
-}
 
 /************* journal de bord **/
 table {
@@ -299,11 +276,6 @@ td:first-of-type{
 
     nav{
         padding : 0px;
-    }
-
-    .mockup-site img, div.mockup, #processus{
-        width: 100% !important;
-        padding-bottom: 2em;
     }
 
     aside{
