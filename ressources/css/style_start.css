@@ -155,8 +155,8 @@ aside {
 
 }
 
-
-aside li p {
+aside li{
+    text-align: left;
 	padding : 8px;
 }
 
@@ -169,10 +169,9 @@ div.mockup {
 	padding : 1em;
 }
 
-.mockup img {
-	width : 100%;
-	height : auto;
-	height : inherit;
+.image {
+	max-width : 100%%;
+	max-height : auto;
 }
 
 .mockup p {
@@ -273,6 +272,10 @@ td:first-of-type{
 
     main{
         flex-direction: column;
+    }
+    
+    aside {
+        margin : 1em auto;
     }
 
 }
