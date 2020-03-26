@@ -72,7 +72,7 @@ li:hover a, .active a{
 }
 
 main{
-    height: 56%;
+    height: 51%;
     background-color: black;
     display: block;
 }
@@ -102,7 +102,7 @@ footer{
   bottom: 0;
   left: 0;
   padding: 1rem;
-    padding-bottom: 9px;
+    padding-bottom: 10px;
   background-color: #454545;
   text-align: center;
 }
