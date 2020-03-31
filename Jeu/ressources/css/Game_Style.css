@@ -30,6 +30,7 @@ nav{
 
 ul {
 	display : flex;
+    max-width: 65em;
     
 }
 
@@ -40,8 +41,8 @@ li {
 }
 
 li > *{
-    margin: 1em;
-    margin-right: 1cm;
+    margin: 0.75em;
+    margin-right: 0.5cm;
 }
 
 
@@ -53,9 +54,9 @@ li a{
     font-size: 1.5em;
     border: 2px solid white;
     padding: 0.25em;
-    padding-left: 0.5em;
-    padding-right: 0.5em;
-    margin-bottom: 0.5em;
+    padding-left: 0.25em;
+    padding-right: 0.25em;
+    margin-bottom: 0.25em;
    
 
 }
@@ -72,10 +73,17 @@ main section{
 }
 
 main section div{
-    background-color: white;
-    margin-left: 20%;
-    margin-right: 20%;
-    
+    background-color: black;
+    margin-left: 30%;
+    margin-right: 30%;
+    height: 11cm;
+    border: 1px solid white;
+    color: white;
+    max-width: 40em;
+
+}
+main section div h2{
+    margin-top: 0.75em;
 }
 
 footer{
