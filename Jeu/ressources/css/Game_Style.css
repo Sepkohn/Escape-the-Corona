@@ -20,6 +20,9 @@ header{
     text-align: center;
     
 }
+header a{
+    height: 50em;
+}
 
 
 /**ecran de jeu**/
@@ -36,15 +39,5 @@ main section div{
     border: 1px solid white;
     color: white;
     max-width: 40em;
-
-}
-
-footer{
-    position: relative;
-    background-color: #454545;
-    text-align: center;
-}
-footer a{
-    text-decoration: none;
-    color: white;
+    margin-bottom: 5px;
 }
