@@ -4,6 +4,7 @@
     margin: 0;
     padding: 0;
     font-family : 'Montserrat';
+
 }
 
 html, body {
@@ -14,7 +15,7 @@ html, body {
 
 header{
     position: relative;
-    padding: 1rem;
+  
     padding-bottom: 0;
     background-color: #454545;
     text-align: center;
@@ -66,6 +67,13 @@ li:hover a, .active a{
 
 } 
 
+.wall{
+    position: relative;
+    background-image: url(../images/mur2.jpeg), url(../images/mur.jpeg);
+    background-repeat: no-repeat, repeat;
+    height: 23px;   
+}
+
 /**ecran de jeu**/
 main section{
     background-color: black;
@@ -91,8 +99,15 @@ footer{
     right: 0;
     bottom: 0;
     left: 0;
-    padding: 1em;
+    padding-bottom: 90px;
     padding-top: 0;
     background-color: #454545;
     text-align: center;
+    
+}
+
+footer img{
+    position:relative;
+    padding-top: 10px;
+    
 }
