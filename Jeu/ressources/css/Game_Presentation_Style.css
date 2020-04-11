@@ -1,0 +1,98 @@
+
+*, html {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family : 'Montserrat';
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    background-color: black;
+}
+
+header{
+    position: relative;
+    padding: 1rem;
+    padding-bottom: 0;
+    background-color: #454545;
+    text-align: center;
+}
+
+
+/**onglets**/
+nav{
+    background-color: #454545;
+    width : 100%;
+    padding : 0px 32px;
+}
+
+ul {
+	display : flex;
+    max-width: 65em;
+    
+}
+
+li {
+    padding: 8px;
+    display : flex;
+    align-items:flex-end;
+}
+
+li > *{
+    margin: 0.75em;
+    margin-right: 0.5cm;
+}
+
+
+li a{
+	text-decoration : none;
+	color : white;
+	font-family : sans-serif  ;
+	font-weight : bold;
+    font-size: 1.5em;
+    border: 2px solid white;
+    padding: 0.25em;
+    padding-left: 0.25em;
+    padding-right: 0.25em;
+    margin-bottom: 0.25em;
+   
+
+}
+
+li:hover a, .active a{
+    color : red;
+
+} 
+
+/**ecran de jeu**/
+main section{
+    background-color: black;
+    margin-top: 2Em;
+}
+
+main section div{
+    background-color: black;
+    margin-left: 30%;
+    margin-right: 30%;
+    height: 11cm;
+    border: 1px solid white;
+    color: white;
+    max-width: 40em;
+
+}
+main section div h2{
+    margin-top: 0.75em;
+}
+
+footer{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 1em;
+    padding-top: 0;
+    background-color: #454545;
+    text-align: center;
+}
