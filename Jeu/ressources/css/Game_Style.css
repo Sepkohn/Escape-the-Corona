@@ -23,11 +23,11 @@ header{
 header a{
     height: 50em;
 }
-
+/*
 
 /**ecran de jeu**/
 main section{
-    background-color: black;
+  //  background-color: black;
     margin-top: 0;
 }
 
@@ -35,9 +35,19 @@ main section div{
     background-color: black;
     margin-left: 30%;
     margin-right: 30%;
-    height: 720px;
-    border: 1px solid white;
+    height: 800px;
+    width:700px;
+    border: 1px solid red;
     color: white;
-    max-width: 40em;
+   // max-width: 40em;
     margin-bottom: 5px;
+}*/
+
+#canvaszone{
+    border:1px solid #d3d3d3;
+   // background-color: #f1f1f1;
+}
+
+#test{
+    position:relative;
 }
