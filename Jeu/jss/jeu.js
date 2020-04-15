@@ -7,8 +7,6 @@ canvas.id="second";
 
 
 
-//document.body.appendChild(canvas-wrap);
-
 document.getElementById("canvas-wrap").appendChild(canvas);
 
 //document.body.appendChild(canvas);
@@ -29,12 +27,24 @@ var checkBeforeStart = function () {
     }
 }
 
+var ambiance = new Audio("../Jeu/ressources/sound/doom.mp3");
+
 /*Panneau démarrage jeu */
 var launchGame = function () {
     document.getElementById("cadreChoixPersonnage").style.display = "none";
+	
+	ambiance.play();
+	
 }
+	
 
 
+//Sound elements
+
+
+
+
+console.log(ambiance.src);
 // Background image
 var bgReady = false;
 var bgImageMain = new Image();
@@ -246,8 +256,9 @@ var render = function () {
 var main = function () {
 	var now = Date.now();
 	var delta = now - then;
-
 	update(delta / 1000);
+
+
 	render();
 	then = now;
 
