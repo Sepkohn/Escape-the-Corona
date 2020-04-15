@@ -5,19 +5,85 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="ressources/css/Game_Style.css">
+	<script src="jss/dragdrop.js"> </script>
 </head>
+
 <body>
 
-<header>
-    <a href="Game_Presentation.html"><img src="ressources/images/logoW.png"/></a>
-</header>
+	<header>
+		<a href="Game_Presentation.html">
+			<img src="ressources/images/logoW.png"/>
+		</a>
+	</header>
 
-<main>
-    <!-- Début zone pour votre contenu -->    
-     <section id="jeu">
-        <div> ici est l'ecran</div>
-    </section>
-</main>
+	<main>
+		<!-- Début zone pour votre contenu -->    
+		  
+	<div id="first">
+	
+		<p>
+			e Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. 
+			Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, 
+			quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen
+			de polices de texte. Il n'a pas fait que survivre cinq siècles, mais s'est aussi adapté à la bureautique informatique, 
+			sans que son contenu n'en soit modifié. Il a été popularisé dans les années 1960 grâce à la vente de feuilles Letraset 
+			contenant des passages du Lorem Ipsum, et, plus récemment, par son inclusion dans des applications de mise en page de 
+			texte, comme Aldus PageMaker
+		</p>
+	
+	</div>
+	
+	<div id="canvas-wrap">
+		
+		<script src="jss/jeu.js"></script>
+		
+		
+		
+		
+		<div id="cadreChoixPersonnage" class="hiddenAfterClick">
+		<h2>Glissez et déposez votre avatar</h2>
+			<form name="start" id="startForm">
+			
+			<div class="fieldFormStart">
+				<img id="imgPlayer1" class="personnage" draggable="true" ondragstart="drag(event)" src="ressources/Personnages/perso01.png" />
+				<img id="imgPlayer2" class="personnage" draggable="true" ondragstart="drag(event)" src="ressources/Personnages/perso02.png" />
+				<img id="imgPlayer3" class="personnage" draggable="true" ondragstart="drag(event)" src="ressources/Personnages/perso03.png" />
+				<img id="imgPlayer4" class="personnage" draggable="true" ondragstart="drag(event)" src="ressources/Personnages/perso04.png" />
+			</div>
+			<div class="fieldFormStart">
+				<img id="imgPlayer" class="imgPlayer" ondrop="drop(event)" ondragover="allowDrop(event)" src="ressources/dropzone.png" />
+			</div>
+			<div class="fieldFormStart">
+				<input id="player" type="text" name="playerName" placeholder="Votre pseudo" />
+			</div>
+			
+			<div class="fieldFormStart">
+				<!--<button id="startBtn" type="button" value="START" onclick="checkBeforeStart()">Start</button>-->
+				<input id="startBtn" type="button" value="START" onclick="checkBeforeStart()" />
+			</div>
+			</form>
+			
+			
+			
+			
+			
+		</div>
+	</div>
+	
+	<div id="third">
+		<p>
+			e Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. 
+			Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, 
+			quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen
+			de polices de texte. Il n'a pas fait que survivre cinq siècles, mais s'est aussi adapté à la bureautique informatique, 
+			sans que son contenu n'en soit modifié. Il a été popularisé dans les années 1960 grâce à la vente de feuilles Letraset 
+			contenant des passages du Lorem Ipsum, et, plus récemment, par son inclusion dans des applications de mise en page de 
+			texte, comme Aldus PageMaker
+		</p>
+	</div>
+		
+		
+	</main>
 </body>
 <footer>
      
