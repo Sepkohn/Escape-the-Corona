@@ -5,23 +5,17 @@ canvas.width = 700;
 canvas.height = 800;
 canvas.id="second";
 
-
-
 document.getElementById("canvas-wrap").appendChild(canvas);
-
-//document.body.appendChild(canvas);
-/*
-function clear() {
-        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    };
-*/
 
 /*Panneau de drag and drop pour débuter le jeu*/
 var checkBeforeStart = function () {
     var player = document.getElementById("player").value;
+   
+    var droptest = document.getElementById("imgPlayer").src;
+   
     console.log(player);
-    if(player ==""){
-        alert("Veuillez entrer un pseudo")
+    if(player =="" || droptest.includes("dropzone.png")){
+        alert("Veuillez entrer un pseudo et choisir un joueur");
     }else{
         launchGame();
     }
@@ -33,12 +27,64 @@ var ambiance = new Audio("../Jeu/ressources/sound/doom.mp3");
 /*Panneau démarrage jeu */
 var launchGame = function () {
     document.getElementById("cadreChoixPersonnage").style.display = "none";
+	reset();
+	main();
 	
-	ambiance.play();
+	var DropHero = document.getElementById("imgPlayer").name;
+	// Hero image
+	const url = "ressources/Personnages/";
+	switch(DropHero){
+            case("imgPlayer1"):
+               heroImage.src=url + "hero01.png";
+                break;
+            case("imgPlayer2"):
+                heroImage.src=url + "hero02.png";
+                break;
+            case("imgPlayer3"):
+                heroImage.src=url + "hero03.png";
+                break;
+            case("imgPlayer4"):
+                heroImage.src=url + "hero04.png";
+                break;
+			default:
+				heroImage.src=url + "hero05.png";
+    }
+
+	//ambiance.play();
 	
 }
+
+
+const cycleLoop = [0, 1, 0, 2];
+let currentLoopIndex = 0;
+let frameCount = 0;
+let currentDirection = 0;
+
+function step() {
+  frameCount++;
+  if (frameCount < 15) {
+    window.requestAnimationFrame(step);
+    return;
+  }
+  frameCount = 0;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawFrame(cycleLoop[currentLoopIndex], currentDirection, 0, 0);
+  currentLoopIndex++;
+  if (currentLoopIndex >= cycleLoop.length) {
+    currentLoopIndex = 0;
+   // currentDirection++; // Next row/direction in the sprite sheet
+  }
+  // Reset to the "down" direction once we've run through them all
+  if (currentDirection >= 4) {
+    currentDirection = 0;
+  }
+  window.requestAnimationFrame(step);
+}
+
+
+
 	
-// Background image
+// Background image START
 var bgReady = false;
 var bgImageMain = new Image();
 bgImageMain.onload = function () {
@@ -46,8 +92,15 @@ bgImageMain.onload = function () {
 };
 bgImageMain.src = "ressources/TextureSolB.jpg";
 
-
-// Background image
+// START HERO
+var heroReady = false;
+	var heroImage = new Image();
+	heroImage.onload = function () {
+		heroReady = true;
+	};
+	
+	
+// Background image GAME OVER
 var bgReadyEnd = false;
 var bgImageMainEnd = new Image();
 bgImageMainEnd.onload = function () {
@@ -56,7 +109,7 @@ bgImageMainEnd.onload = function () {
 bgImageMainEnd.src = "ressources/TextureSolBEnd.jpg";
 
 
-// Hero image
+// Background image GAME OVER 2
 var gaovReady = false;
 var gaov = new Image();
 gaov.onload = function () {
@@ -65,13 +118,6 @@ gaov.onload = function () {
 gaov.src = "ressources/gaov.png";
 
 
-// Hero image
-var heroReady = false;
-var heroImage = new Image();
-heroImage.onload = function () {
-	heroReady = true;
-};
-heroImage.src = "ressources/hero.png";
 
 // Monster image
 var monsterReady1 = false;
@@ -163,30 +209,35 @@ monsterImage10.src = "ressources/combi3D.png";
 var hero = {
     x: 0,
 	y: 0,
-	speed: 256 // movement in pixels per second
+	speed: 256, // movement in pixels per second
+	width:42,
+	height:66
 };
 
-function monster(){
+function monster(w,h){
 	this.speed=100;
 	this.x=0;
 	this.y=0;
+	this.width=w;
+	this.height=h;
 	name=this.name;
 }
 
-monster.prototype.marche = function(){
-	this.x+=1;
+monster.prototype.marche = function(x){
+	this.x+=x;
 }
 
-var monster1 = new monster();
-var monster2 = new monster();
-var monster3 = new monster();
-var monster4 = new monster();
-var monster5 = new monster();
-var monster6 = new monster();
-var monster7 = new monster();
-var monster8 = new monster();
-var monster9 = new monster();
-var monster10 = new monster();
+
+var monster1 = new monster(111,66);
+var monster2 = new monster(111,66);
+var monster3 = new monster(111,66);
+var monster4 = new monster(111,66);
+var monster5 = new monster(111,66);
+var monster6 = new monster(111,66);
+var monster7 = new monster(111,66);
+var monster8 = new monster(111,66);
+var monster9 = new monster(111,66);
+var monster10 = new monster(111,66);
 
 
 var monsters = [monster1,monster2,monster3,monster4,monster5,monster6,monster7,monster8,monster9,monster10];
@@ -206,7 +257,7 @@ var monster2 = {
 var monstersCaught = 3;
 
 // Handle keyboard controls
-var keysDown = {};
+//var keysDown = {};
 
 addEventListener("keyup",function (e){
                  
@@ -214,20 +265,20 @@ addEventListener("keyup",function (e){
     
     let direction = e.keyCode;
     
-    if(direction==38 && hero.y > 25){ // Player holding up
-        hero.y -=70; 
+    if(direction==38 && hero.y > -66){ // monter
+        hero.y -=66; 
     }
     
-    if(direction==40 && hero.y < 750){ // Player holding down
-        hero.y +=70; 
+    if(direction==40 && hero.y < 800){ // descendre
+        hero.y +=66; 
     }
     
-    if(direction==37 && hero.x > 0){ // Player holding left
-        hero.x -=32; 
+    if(direction==37 && hero.x > 41){ // Player holding left
+        hero.x -=41; 
     }
     
-    if(direction==39 && hero.x < 670){ // Player holding right
-        hero.x +=32; 
+    if(direction==39 && hero.x < 640){ // Player holding right
+        hero.x +=41; 
     }
 },false);
 
@@ -243,49 +294,37 @@ addEventListener("keydown", function (e) {
 
 
 function monsterAction(){
-
-   /* 
-    monster1.x += 1; //Vitesse du png
-    console.log("test");
-    monster2.x += 1;*/
-	monster1.marche();
-	monster2.marche();
-	monster3.marche();
-	monster4.marche();
-	monster5.marche();
-	monster6.marche();
-	monster7.marche();
-	monster8.marche();
-	monster9.marche();
-	monster10.marche();
-	/* CETTE BOUCLE NE FONCTIONNE PAS POURQUOI  (Quentin)
-	for(let i;i<monsters.length;i++){
-		monsters[i].marche();
-		console.log("test");
-	}
-	*/
-    
+	monster1.marche(1);
+	monster2.marche(2);
+	monster3.marche(2);
+	monster4.marche(1);
+	monster5.marche(3);
+	monster6.marche(1);
+	monster7.marche(1);
+	monster8.marche(1);
+	monster9.marche(1);
+	monster10.marche(1);   
 };
 
 // Reset the game when the player catches a monster
 var reset = function () {
     
     //Position de depart du hero
-	hero.x = 350;
-    hero.y = 765;
+	hero.x = 329;
+    hero.y = 726;
 
 	// Throw the monster somewhere on the screen randomly
 	//monster.x = 32 + (Math.random() * (canvas.width - 125)); //125 = à l'avant du véhicule ou du monstre
 	//monster.y = 32 + (Math.random() * (canvas.height - 125));// On definit la zone d'apparition pour qu'il ne sorte pas du jeu
     
-    monster1.x = 0;
+  /*  monster1.x = 0;
     //monster.y = Math.random() *(5 - 800)+800;
     monster1.y = 31;
     
     monster2.x = 0;
     monster2.y = 101;
     
-   monster3.x = 0;
+    monster3.x = 0;
     monster3.y = 171;
     
     monster4.x = 0;
@@ -308,7 +347,38 @@ var reset = function () {
     
     monster10.x = 0;
     monster10.y = 661;
+    */
+	
+	 monster1.x = 0;
+    //monster.y = Math.random() *(5 - 800)+800;
+    monster1.y = 66;
     
+    monster2.x = 0;
+    monster2.y = 132;
+    
+    monster3.x = 0;
+    monster3.y = 198;
+    
+    monster4.x = 0;
+    monster4.y = 264;
+    
+    monster5.x = 0;
+    monster5.y = 330;
+    
+    monster6.x = 0;
+    monster6.y = 396;
+    
+    monster7.x = 0;
+    monster7.y = 462;
+    
+    monster8.x = 0;
+    monster8.y = 528;
+    
+    monster9.x = 0;
+    monster9.y = 594;
+    
+    monster10.x = 0;
+    monster10.y = 660;
     monsterAction();
 };
 
@@ -322,7 +392,7 @@ var gameOver = function(){
     ctx.drawImage(gaov,200,150);
     
     ctx.fillText("Game Over");
-    
+    window.cancelAnimationFrame(main);
     
 }
 
@@ -333,13 +403,13 @@ var gameOver = function(){
 //Controle pour que le joueur ne sorte pas du jeu
 
 var update = function (modifier) {
-    
+  
  
 	// Are they touching? //32
     // A definir pour chaque monstre !! 
     // Faire des classes de monstres par taille. 
     
-	if (
+	/*if (
 		hero.x <= (monster1.x + 110)//Avant du monstre
         && monster1.x <= (hero.x + 32)//Arrière gauche du monstre
 		&& hero.y <= (monster1.y + 40)//Dessous
@@ -347,32 +417,52 @@ var update = function (modifier) {
 	) {
 		--monstersCaught;
         
-        if(monstersCaught<1){
-            
+        if(monstersCaught<1){       
             gameOver();
-            
         }
         else{
             reset();
         }
 		
+	}else{
+        monsterAction();  
+    }*/
+	
+	var touchDown = function(horribleMonster, hero){
+		/*if(hero.x <= (horribleMonster.x + horribleMonster.width)//Avant du monstre
+        && horribleMonster.x <= (hero.x + 42)//Arrière gauche du monstre
+		&& hero.y <= (horribleMonster.y - horribleMonster.height)//Dessous
+		&& horribleMonster.y <= (hero.y - hero.heigth)){
+		*/
+		
+		if(horribleMonster.x >= hero.x + hero.width || horribleMonster.x + horribleMonster.width <= hero.x || horribleMonster.y <= hero.y - hero.height  || horribleMonster.y - horribleMonster.height >= hero.y){
+			return false;
+		}
+		return true;
 	}
-    
-    else{
+	
+
+	
+	if ((touchDown(monster1,hero))||(touchDown(monster2,hero))||(touchDown(monster3,hero))||(touchDown(monster4,hero))||(touchDown(monster5,hero))||(touchDown(monster6,hero))||(touchDown(monster7,hero))||(touchDown(monster8,hero))||(touchDown(monster9,hero))||(touchDown(monster10,hero))) {
+		console.log("attention");
+		--monstersCaught;
         
-        
-        monsterAction();
-        
+        if(monstersCaught<1){       
+            gameOver();
+        }
+        else{
+            reset();
+        }
+		
+	}else{
+        monsterAction();  
     }
     
 };
 
-
-
-
-
 // Draw everything
 var render = function () {
+	
 	if (bgReady) {
     //Image de fond
         ctx.drawImage(bgImageMain,0,0);        
@@ -436,7 +526,8 @@ var main = function () {
 	var now = Date.now();
 	var delta = now - then;
 	update(delta / 1000);
-
+	
+	
 
 	render();
 	then = now;
@@ -452,5 +543,3 @@ requestAnimationFrame = w.requestAnimationFrame || w.webkitRequestAnimationFrame
 
 // Let's play this game!
 var then = Date.now();
-reset();
-main();
