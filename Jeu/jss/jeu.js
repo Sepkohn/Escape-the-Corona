@@ -21,6 +21,31 @@ var checkBeforeStart = function () {
     }
 }
 
+
+var minute = 0;
+var seconds = 15;
+var setTimer = null;
+
+var runningTimer = function(){
+        seconds--;
+        if(seconds==-1){
+            seconds=59;
+            minute--;
+        }
+    if(minute ==0 && seconds==0 ){
+        --monstersCaught;
+        clearInterval(setTimer);
+        if(monstersCaught>0){reset();}
+    }
+    else{   
+        ctx.fillStyle = "rgb(250, 250, 250)";
+        ctx.font = "24px Helvetica";
+        ctx.textAlign = "left";
+        ctx.textBaseline = "top";
+        console.log("Timer : " + minute + ":" + seconds, 150, 32);
+    }
+}
+
 //New song
 var ambiance = new Audio("../Jeu/ressources/sound/doom.mp3");
 
@@ -28,7 +53,8 @@ var ambiance = new Audio("../Jeu/ressources/sound/doom.mp3");
 var launchGame = function () {
     document.getElementById("cadreChoixPersonnage").style.display = "none";
 	reset();
-	main();
+	myReq = w.requestAnimationFrame(main);
+    
 	
 	var DropHero = document.getElementById("imgPlayer").name;
 	// Hero image
@@ -49,40 +75,10 @@ var launchGame = function () {
 			default:
 				heroImage.src=url + "hero05.png";
     }
-
+    
 	//ambiance.play();
 	
 }
-
-
-const cycleLoop = [0, 1, 0, 2];
-let currentLoopIndex = 0;
-let frameCount = 0;
-let currentDirection = 0;
-
-function step() {
-  frameCount++;
-  if (frameCount < 15) {
-    window.requestAnimationFrame(step);
-    return;
-  }
-  frameCount = 0;
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  drawFrame(cycleLoop[currentLoopIndex], currentDirection, 0, 0);
-  currentLoopIndex++;
-  if (currentLoopIndex >= cycleLoop.length) {
-    currentLoopIndex = 0;
-   // currentDirection++; // Next row/direction in the sprite sheet
-  }
-  // Reset to the "down" direction once we've run through them all
-  if (currentDirection >= 4) {
-    currentDirection = 0;
-  }
-  window.requestAnimationFrame(step);
-}
-
-
-
 	
 // Background image START
 var bgReady = false;
@@ -190,10 +186,8 @@ monsterImage10.onload = function () {
 	monsterReady10 = true;
 };
 
-//monsterImage.src = "ressources/AmbuSmall.png";
 monsterImage1.src = "ressources/combi3D.png";
 monsterImage2.src = "ressources/combi3D.png";
-
 monsterImage3.src = "ressources/combi3D.png";
 monsterImage4.src = "ressources/combi3D.png";
 monsterImage5.src = "ressources/combi3D.png";
@@ -242,18 +236,12 @@ var monster10 = new monster(111,66);
 
 var monsters = [monster1,monster2,monster3,monster4,monster5,monster6,monster7,monster8,monster9,monster10];
 
-/*
 
-var monster2 = {
-	x: 0,
-	y: 0,
-    speed: 100
-  
-};*/
 
 //A encore un role celui de la vie de notre hero
 //transformer en compteur de vie.
 
+//a modifier
 var monstersCaught = 3;
 
 // Handle keyboard controls
@@ -288,8 +276,6 @@ addEventListener("keyup",function (e){
 addEventListener("keydown", function (e) {
 	onkeydown = true;
     
-    //hero.y +=100;
-    
 }, false);
 
 
@@ -309,6 +295,15 @@ function monsterAction(){
 // Reset the game when the player catches a monster
 var reset = function () {
     
+    //reset du timer
+    minute=0;
+    seconds =15;
+    
+    console.log("Timer : " + minute + ":" + seconds, 150, 32);
+    ctx.fillText("Timer : " + minute + ":" + seconds,32, 150);
+    setTimer = setInterval(runningTimer,1000);
+    
+    
     //Position de depart du hero
 	hero.x = 329;
     hero.y = 726;
@@ -316,38 +311,6 @@ var reset = function () {
 	// Throw the monster somewhere on the screen randomly
 	//monster.x = 32 + (Math.random() * (canvas.width - 125)); //125 = à l'avant du véhicule ou du monstre
 	//monster.y = 32 + (Math.random() * (canvas.height - 125));// On definit la zone d'apparition pour qu'il ne sorte pas du jeu
-    
-  /*  monster1.x = 0;
-    //monster.y = Math.random() *(5 - 800)+800;
-    monster1.y = 31;
-    
-    monster2.x = 0;
-    monster2.y = 101;
-    
-    monster3.x = 0;
-    monster3.y = 171;
-    
-    monster4.x = 0;
-    monster4.y = 241;
-    
-    monster5.x = 0;
-    monster5.y = 311;
-    
-    monster6.x = 0;
-    monster6.y = 381;
-    
-    monster7.x = 0;
-    monster7.y = 451;
-    
-    monster8.x = 0;
-    monster8.y = 521;
-    
-    monster9.x = 0;
-    monster9.y = 591;
-    
-    monster10.x = 0;
-    monster10.y = 661;
-    */
 	
 	 monster1.x = 0;
     //monster.y = Math.random() *(5 - 800)+800;
@@ -379,7 +342,6 @@ var reset = function () {
     
     monster10.x = 0;
     monster10.y = 660;
-    monsterAction();
 };
 
 
@@ -391,49 +353,17 @@ var gameOver = function(){
     ctx.drawImage(bgImageMainEnd,0,0);
     ctx.drawImage(gaov,200,150);
     
-    ctx.fillText("Game Over");
-    window.cancelAnimationFrame(main);
+    w.cancelAnimationFrame(myReq);
+    return;
     
 }
-
-
-
 
 // Update game objects
 //Controle pour que le joueur ne sorte pas du jeu
 
 var update = function (modifier) {
-  
- 
-	// Are they touching? //32
-    // A definir pour chaque monstre !! 
-    // Faire des classes de monstres par taille. 
-    
-	/*if (
-		hero.x <= (monster1.x + 110)//Avant du monstre
-        && monster1.x <= (hero.x + 32)//Arrière gauche du monstre
-		&& hero.y <= (monster1.y + 40)//Dessous
-		&& monster1.y <= (hero.y + 25)//Dessus
-	) {
-		--monstersCaught;
-        
-        if(monstersCaught<1){       
-            gameOver();
-        }
-        else{
-            reset();
-        }
-		
-	}else{
-        monsterAction();  
-    }*/
 	
 	var touchDown = function(horribleMonster, hero){
-		/*if(hero.x <= (horribleMonster.x + horribleMonster.width)//Avant du monstre
-        && horribleMonster.x <= (hero.x + 42)//Arrière gauche du monstre
-		&& hero.y <= (horribleMonster.y - horribleMonster.height)//Dessous
-		&& horribleMonster.y <= (hero.y - hero.heigth)){
-		*/
 		
 		if(horribleMonster.x >= hero.x + hero.width || horribleMonster.x + horribleMonster.width <= hero.x || horribleMonster.y <= hero.y - hero.height  || horribleMonster.y - horribleMonster.height >= hero.y){
 			return false;
@@ -441,18 +371,11 @@ var update = function (modifier) {
 		return true;
 	}
 	
-
-	
 	if ((touchDown(monster1,hero))||(touchDown(monster2,hero))||(touchDown(monster3,hero))||(touchDown(monster4,hero))||(touchDown(monster5,hero))||(touchDown(monster6,hero))||(touchDown(monster7,hero))||(touchDown(monster8,hero))||(touchDown(monster9,hero))||(touchDown(monster10,hero))) {
 		console.log("attention");
 		--monstersCaught;
-        
-        if(monstersCaught<1){       
-            gameOver();
-        }
-        else{
-            reset();
-        }
+        clearInterval(setTimer);
+        if(monstersCaught>0){reset();}
 		
 	}else{
         monsterAction();  
@@ -519,6 +442,8 @@ var render = function () {
 	ctx.textAlign = "left";
 	ctx.textBaseline = "top";
 	ctx.fillText("Vie(s): " + monstersCaught, 32, 32);
+    
+    
 };
 
     // The main game loop
@@ -526,19 +451,27 @@ var main = function () {
 	var now = Date.now();
 	var delta = now - then;
 	update(delta / 1000);
-	
-	
 
 	render();
 	then = now;
 
+    if(monstersCaught===0){
+        gameOver();
+        clearInterval(setTimer);
+        return;
+    }
+    else{
 	// Request to do this again ASAP
-	requestAnimationFrame(main);
+	myReq = w.requestAnimationFrame(main);
+    }
 };
 
+
+var myReq;
 // Cross-browser support for requestAnimationFrame
 var w = window;
-requestAnimationFrame = w.requestAnimationFrame || w.webkitRequestAnimationFrame || w.msRequestAnimationFrame || w.mozRequestAnimationFrame;
+w.requestAnimationFrame = w.requestAnimationFrame || w.webkitRequestAnimationFrame || w.msRequestAnimationFrame || w.mozRequestAnimationFrame;
+w.cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame;
 
 
 // Let's play this game!
