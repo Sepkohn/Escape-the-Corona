@@ -4,16 +4,25 @@ var ctx = canvas.getContext("2d");
 canvas.width = 700;
 canvas.height = 800;
 canvas.id="second";
+var palmares = [];
 
 document.getElementById("canvas-wrap").appendChild(canvas);
+
+var geoUser = "";
+	
+	getLocation();
+	
+	geoUser = localStorage.getItem("geoUserMemo");
+	geoUser = geoUser.substring(1, geoUser.length); //Delete first character
+	geoUser = geoUser.slice(0, -1); //Delete last character
+	console.log(geoUser);
 
 /*Panneau démarrage jeu */
 var launchGame = function () {
     document.getElementById("cadreChoixPersonnage").style.display = "none";
 	reset();
 	myReq = w.requestAnimationFrame(main);
-    
-	
+
 	var DropHero = document.getElementById("imgPlayer").name;
 	// Hero image
 	const url = "ressources/Personnages/";
@@ -34,6 +43,10 @@ var launchGame = function () {
 				heroImage.src=url + "hero05.png";
     }
     //ambiance.play();
+	
+	if (localStorage.getItem("palmares") === null) { //if palmares is null we create it
+        localStorage.setItem("palmares", JSON.stringify(palmares));
+    }
 	
 }
 let player = "";
@@ -124,11 +137,11 @@ addEventListener("keyup",function (e){
     
     let direction = e.keyCode;
     
-    if(direction==38 && hero.y > -66){ // monter
+    if(direction==38 && hero.y > 0){ // monter
         hero.y -=66; 
     }
     
-    if(direction==40 && hero.y < 800){ // descendre
+    if(direction==40 && hero.y < 726){ // descendre
         hero.y +=66; 
     }
     
@@ -197,22 +210,10 @@ var gameOver = function(){
 
 var win = function(){
 	gameOver();
-	document.getElementById("third").innerHTML = construcFinalString();
+	updateScore(player, scoreMinute, scoreSeconds);
+	displayRanking();
 	return;
 }
-
-var construcFinalString = function(){
-	var stringResult = " Score : " + player + " - ";
-	if(scoreMinute<10)
-		stringResult+="0";
-	stringResult+= scoreMinute + ":";
-	if(scoreSeconds<10)
-		stringResult+="0";
-	stringResult+=scoreSeconds;
-	
-	return stringResult
-};
-
 // Update game objects
 //Controle pour que le joueur ne sorte pas du jeu
 
@@ -247,11 +248,7 @@ var update = function (modifier) {
     if (passFinishLine(hero)){
         stopTimer();
 		winScore++;
-		if(winScore===3){
-			win();
-		}
-		else{reset();}
-        
+		reset();
     }
     
 };
