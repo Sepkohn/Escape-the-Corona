@@ -52,12 +52,19 @@ var checkBeforeStart = function () {
     }
 }
 
+//initialisation variables Timer
 var initialMinute = 2;
 var initialSeconds = 0;
 var setTimer = null;
+
+//initialisation variables score
 var scoreMinute = 0;
 var scoreSeconds = 0;
 var winScore = 0;
+
+//initialisation variables point d'arrivée
+var arriveeX = 0;
+var arriveeY = 0;
 
 var runningTimer = function(){
         seconds--;
@@ -154,6 +161,10 @@ var reset = function () {
     //Position de depart du hero
 	hero.x = 329;
     hero.y = 726;
+	
+	//position d'arrivée
+	arriveeX = 350;
+	arriveeY = 0;
 
 	// Throw the monster somewhere on the screen randomly
 	//monster.x = 32 + (Math.random() * (canvas.width - 125)); //125 = à l'avant du véhicule ou du monstre
@@ -224,7 +235,16 @@ var update = function (modifier) {
 	}else{
         monsterAction();  
     }
-    if (hero.y<=32 &&hero.x <=32){
+	
+   var passFinishLine = function(hero){
+		
+		if(arriveeX >= hero.x + hero.width || arriveeX + hero.width <= hero.x || arriveeY <= hero.y - hero.height  || arriveeY - hero.height >= hero.y){
+			return false;
+		}
+		return true;
+	}
+	
+    if (passFinishLine(hero)){
         stopTimer();
 		winScore++;
 		if(winScore===3){
@@ -253,7 +273,7 @@ var render = function () {
     for (var i = 0; i<monsters.length; i++){
         var monsterImage = new Image();  
         monsterImage.src = monsters[i].monsterImage;  
-        console.log(monsterImage);
+        //console.log(monsterImage);
 		ctx.drawImage(monsterImage, monsters[i].x, monsters[i].y);       
     }   
     
