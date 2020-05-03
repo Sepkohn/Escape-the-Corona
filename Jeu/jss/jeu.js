@@ -51,10 +51,11 @@ var checkBeforeStart = function () {
     }
 }
 
-
-var minute = 0;
-var seconds = 15;
+var initialMinute = 0;
+var initialSeconds = 11;
 var setTimer = null;
+var scoreMinute = 0;
+var scoreSeconds = 0;
 
 var runningTimer = function(){
         seconds--;
@@ -65,16 +66,29 @@ var runningTimer = function(){
     if(minute ==0 && seconds==0 ){
         --monstersCaught;
         clearInterval(setTimer);
-        if(monstersCaught>0){reset();}
+        if(monstersCaught>0){
+            reset();
+        }
     }
-    else{   
-        ctx.fillStyle = "rgb(250, 250, 250)";
-        ctx.font = "24px Helvetica";
-        ctx.textAlign = "left";
-        ctx.textBaseline = "top";
-        console.log("Timer : " + minute + ":" + seconds, 150, 32);
-    }
+    
 }
+
+/*var stopTimer = function(){
+    finalMinute = minute;
+    finalseconds = seconds;
+    clearInterval(setTimer);
+    
+    if(initialSeconds==0){
+        scoreMinute += (initialMinute-1--minute);
+        scoreSeconds+= 60-seconds;
+        }
+    else{
+        scoreMinute+=initialMinute-minute;
+        scoreSeconds+= initialSeconds-seconds;
+    }
+}*/
+
+
 
 //New song
 var ambiance = new Audio("../Jeu/ressources/sound/doom.mp3");
@@ -125,14 +139,10 @@ addEventListener("keydown", function (e) {
 var reset = function () {
     
     //reset du timer
-    minute=0;
-    seconds =15;
-    
-    console.log("Timer : " + minute + ":" + seconds, 150, 32);
-    ctx.fillText("Timer : " + minute + ":" + seconds,32, 150);
-    setTimer = setInterval(runningTimer,1000);
-    
-    
+    minute=initialMinute;
+    seconds =initialSeconds;
+    setTimer = setInterval(runningTimer, 1000);
+      
     //Position de depart du hero
 	hero.x = 329;
     hero.y = 726;
@@ -271,7 +281,10 @@ var render = function () {
 	ctx.textAlign = "left";
 	ctx.textBaseline = "top";
 	ctx.fillText("Vie(s): " + monstersCaught, 32, 32);
-    
+    if(seconds<10){
+        ctx.fillText("Time : 0" + minute +":0" + seconds, 550, 32);
+    }
+    else {ctx.fillText("Time : 0" + minute +":" + seconds, 550, 32);}
     
 };
 
