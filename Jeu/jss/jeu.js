@@ -36,10 +36,11 @@ var launchGame = function () {
     //ambiance.play();
 	
 }
+let player = "";
 
 /*Panneau de drag and drop pour débuter le jeu*/
 var checkBeforeStart = function () {
-    var player = document.getElementById("player").value;
+    player = document.getElementById("player").value;
    
     var droptest = document.getElementById("imgPlayer").src;
    
@@ -51,11 +52,12 @@ var checkBeforeStart = function () {
     }
 }
 
-var initialMinute = 0;
-var initialSeconds = 11;
+var initialMinute = 2;
+var initialSeconds = 0;
 var setTimer = null;
 var scoreMinute = 0;
 var scoreSeconds = 0;
+var winScore = 0;
 
 var runningTimer = function(){
         seconds--;
@@ -73,22 +75,28 @@ var runningTimer = function(){
     
 }
 
-/*var stopTimer = function(){
-    finalMinute = minute;
-    finalseconds = seconds;
-    clearInterval(setTimer);
+var stopTimer = function(){
+	
+	var finalMinute = this.minute;
+    var finalseconds = this.seconds;
     
-    if(initialSeconds==0){
-        scoreMinute += (initialMinute-1--minute);
-        scoreSeconds+= 60-seconds;
-        }
-    else{
-        scoreMinute+=initialMinute-minute;
-        scoreSeconds+= initialSeconds-seconds;
+	clearInterval(setTimer);
+    
+    if(initialSeconds===0){
+        scoreMinute += initialMinute-1-finalMinute;
+        scoreSeconds += 60-finalseconds;
+	}else{
+        scoreMinute+=initialMinute-finalMinute;
+        scoreSeconds+=initialSeconds-finalseconds;
     }
-}*/
-
-
+	
+	if(scoreSeconds>=60){
+		scoreSeconds -=60;
+		scoreMinute+=1;
+	}
+	console.log("Time left : " + finalMinute+":"+finalseconds)
+    console.log("score : " + scoreMinute + ":" + scoreSeconds);   
+}
 
 //New song
 var ambiance = new Audio("../Jeu/ressources/sound/doom.mp3");
@@ -193,9 +201,28 @@ var gameOver = function(){
     ctx.drawImage(gaov,200,150);
     
     w.cancelAnimationFrame(myReq);
+	
     return;
     
 }
+
+var win = function(){
+	gameOver();
+	document.getElementById("third").innerHTML = construcFinalString();
+	return;
+}
+
+var construcFinalString = function(){
+	var stringResult = " Score : " + player + " - ";
+	if(scoreMinute<10)
+		stringResult+="0";
+	stringResult+= scoreMinute + ":";
+	if(scoreSeconds<10)
+		stringResult+="0";
+	stringResult+=scoreSeconds;
+	
+	return stringResult
+};
 
 // Update game objects
 //Controle pour que le joueur ne sorte pas du jeu
@@ -214,10 +241,19 @@ var update = function (modifier) {
 		console.log("attention");
 		--monstersCaught;
         clearInterval(setTimer);
-        if(monstersCaught>0){reset();}
+        if(monstersCaught>0){reset();}	
 		
 	}else{
         monsterAction();  
+    }
+    if (hero.y<=32 &&hero.x <=32){
+        stopTimer();
+		winScore++;
+		if(winScore===3){
+			win();
+		}
+		else{reset();}
+        
     }
     
 };
@@ -302,10 +338,17 @@ var main = function () {
         clearInterval(setTimer);
         return;
     }
-    else{
-	// Request to do this again ASAP
-	myReq = w.requestAnimationFrame(main);
-    }
+	else{
+		if(winScore===3){
+			win();
+			clearInterval();
+			return;
+			}
+		else{
+		// Request to do this again ASAP
+		myReq = w.requestAnimationFrame(main);
+		}
+	}
 };
 
 
