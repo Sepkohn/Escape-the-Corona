@@ -159,36 +159,14 @@ var reset = function () {
 	//monster.x = 32 + (Math.random() * (canvas.width - 125)); //125 = à l'avant du véhicule ou du monstre
 	//monster.y = 32 + (Math.random() * (canvas.height - 125));// On definit la zone d'apparition pour qu'il ne sorte pas du jeu
 	
-	 monster1.x = 0;
-    //monster.y = Math.random() *(5 - 800)+800;
-    monster1.y = 66;
     
-    monster2.x = 0;
-    monster2.y = 132;
+      var position = [66,132,198,264,330,396,462,528,594,660];
     
-    monster3.x = 0;
-    monster3.y = 198;
+    for(var i=0;i<monsters.length;i++){
+        monsters[i].x = 0;
+        monsters[i].y = position[i];
+    }    
     
-    monster4.x = 0;
-    monster4.y = 264;
-    
-    monster5.x = 0;
-    monster5.y = 330;
-    
-    monster6.x = 0;
-    monster6.y = 396;
-    
-    monster7.x = 0;
-    monster7.y = 462;
-    
-    monster8.x = 0;
-    monster8.y = 528;
-    
-    monster9.x = 0;
-    monster9.y = 594;
-    
-    monster10.x = 0;
-    monster10.y = 660;
 };
 
 
@@ -270,45 +248,14 @@ var render = function () {
 		ctx.drawImage(heroImage, hero.x, hero.y);
 	}
 
-	if (monsterReady1) {
-		ctx.drawImage(monsterImage1, monster1.x, monster1.y);
-	}
     
-    if (monsterReady2) {
-		ctx.drawImage(monsterImage2, monster2.x, monster2.y);
-	}
     
-    if (monsterReady3) {
-		ctx.drawImage(monsterImage3, monster3.x, monster3.y);
-	}
-    
-    if (monsterReady4) {
-		ctx.drawImage(monsterImage4, monster4.x, monster4.y);
-	}
-    
-    if (monsterReady5) {
-		ctx.drawImage(monsterImage5, monster5.x, monster5.y);
-	}
-    
-    if (monsterReady6) {
-		ctx.drawImage(monsterImage6, monster6.x, monster6.y);
-	}
-    
-    if (monsterReady7) {
-		ctx.drawImage(monsterImage7, monster7.x, monster7.y);
-	}
-    
-    if (monsterReady8) {
-		ctx.drawImage(monsterImage8, monster8.x, monster8.y);
-	}
-    
-    if (monsterReady9) {
-		ctx.drawImage(monsterImage9, monster9.x, monster9.y);
-	}
-    
-    if (monsterReady10) {
-		ctx.drawImage(monsterImage10, monster10.x, monster10.y);
-	}
+    for (var i = 0; i<monsters.length; i++){
+        var monsterImage = new Image();  
+        monsterImage.src = monsters[i].monsterImage;  
+        console.log(monsterImage);
+		ctx.drawImage(monsterImage, monsters[i].x, monsters[i].y);       
+    }   
     
 
 	// Score
