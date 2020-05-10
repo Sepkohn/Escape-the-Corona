@@ -1,4 +1,5 @@
 var updateScore = function(player, scoreMinute, scoreSeconds){
+	console.log("i update the palmares");
 	
 	var palmares = JSON.parse(localStorage.getItem("palmares"));
 	
@@ -8,7 +9,7 @@ var updateScore = function(player, scoreMinute, scoreSeconds){
 	
 	palmares.forEach(function (element){
 		var infoScore = element.split('|');	
-		if(infoScore[1]>=scoreMinute&&infoScore[2]>scoreSeconds&&!isSet){
+		if(infoScore[1]>=scoreMinute && infoScore[2]>=scoreSeconds && !isSet){
 			placeInPalmares = cpt;
             isSet = true;
 			console.log("I am in the PAlMARES !!");
