@@ -208,7 +208,25 @@ var image = function(source, width, height){
 }
 
 //images disponibles
-var catalog = [new image("ressources/images/combi3D.png",111,66)];
+var catalog = [];
+catalog[0] =new image("ressources/images/combi3D.png",111,66);
+catalog[1] =new image("ressources/images/combi2D.png",72,66);
+catalog[2] =new image("ressources/images/combi1D.png",35,66);
+catalog[3] =new image("ressources/images/feb3D.png",84,66);
+catalog[4] =new image("ressources/images/feb2D.png",54,66);
+catalog[5] =new image("ressources/images/feb1D.png",25,66);
+catalog[6] =new image("ressources/images/fe3D.png",51,66);
+catalog[7] =new image("ressources/images/ho4D.png",73,66);
+catalog[8] =new image("ressources/images/ho3D.png",53,66);
+catalog[9] =new image("ressources/images/ho2D.png",34,66);
+catalog[10] =new image("ressources/images/ho1D.png",15,66);
+catalog[11] =new image("ressources/images/vie3D.png",91,66);
+catalog[12] =new image("ressources/images/vie2D.png",58,66);
+catalog[13] =new image("ressources/images/vie1D.png",26,66);
+catalog[14] =new image("ressources/images/pou3D.png",190,66);
+catalog[15] =new image("ressources/images/pou2D.png",124,66);
+catalog[16] =new image("ressources/images/pou1D.png",59,66);
+
 for(let c of catalog){
 	c.image = new Image();
 	c.image.src = c.source;
@@ -393,6 +411,10 @@ var myRandom = function(newLineOfMonsters, myCatlog){
 	return x;
 }
 
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
 var init = function(){
 	 //reset du timer
     minute=initialMinute;
@@ -422,8 +444,8 @@ var init = function(){
 			let newLineOfMonsters = new lineOfMonsters(position[i], 1);
 			
 			//let myCatlog = catalog[Math.random()*(catalog.length)];
-			let myCatlog = catalog[0];
-			
+			let myCatlog = catalog[getRandomInt(8)];
+		
 			let newMonster = new monster(myRandom(newLineOfMonsters, myCatlog), newLineOfMonsters.y, myCatlog);
 			newLineOfMonsters.addMonster(newMonster);
 			
@@ -560,12 +582,12 @@ var checkColision = function(){
 		}
 	}
 
-	for(let lineNew of theHorde.linesOfMonsters){
+for(let lineNew of theHorde.linesOfMonsters){
         for(let i = 0; i< lineNew.monsters.length; i++){
 			if(lineNew.monsters[i].x>650){
 				lineNew.monsters.splice(i,1);
 				
-				let newMonster = new monster(0, lineNew.y, catalog[0]);
+				let newMonster = new monster(0, lineNew.y, catalog[getRandomInt(8)]);
 				lineNew.addMonster(newMonster);
 			}
             
@@ -639,7 +661,15 @@ var endGame = function(i){
 /***************************************************************************
 							Rendu
 ***************************************************************************/
-
+var catalogIsReallyReady = function(){
+	let ready = false;
+	for(let i=0;i<=catalog.length;i++){
+		if(catalog[i].isReady){
+			ready=true;
+		}
+	}
+	return ready;
+}
 
 var render= function(){
 	
@@ -652,7 +682,7 @@ var render= function(){
 		ctx.drawImage(hero.heroImage, hero.x, hero.y);
 	}
 
-    if(catalog[0].isReady){
+    if(catalogIsReallyReady){
 		for (let i = 0; i<theHorde.linesOfMonsters.length; i++){
 			var actualLineOfMonsters = theHorde.linesOfMonsters[i];
 			
