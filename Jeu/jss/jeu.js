@@ -6,12 +6,12 @@
 
 var gameInProgress = true;
 
-
+const widthSize=700;
 // Creer le canvas
 var canvas = document.createElement("canvas");
 var ctx = canvas.getContext("2d");
-canvas.width = 700;
-canvas.height = 800;
+canvas.width = widthSize;
+canvas.height = 726;
 canvas.id="second";
 var palmares = [];
 
@@ -192,8 +192,12 @@ var finishX=0;
 var finishY=0;
 
 //positions y disponibles
-var position = [66,132,198,264,330,396,462,528,594,660];
-
+const h = 66;
+var position = [h,h*2,h*3,h*4,h*5,h*6,h*7,h*8,h*9,h*10];
+/*
+for(let i=0;i<10;i--){
+	position[i]=h*i
+}*/
 /***************************************************************************
 				initialisation du catalogue d'image
 ***************************************************************************/
@@ -261,23 +265,23 @@ addEventListener("keyup",function (e){
    // onkeyup = true;
     
     let direction = e.keyCode;
-    
+   
     if(direction==38 && hero.y > 0){ // monter
-			
+			 console.log(hero.y);
 		hero.y -=66;
 		if(!checkStopWall()){
 			hero.y +=66;
 		}
     }
     
-    if(direction==40 && hero.y < 726){  // descendre
+    if(direction==40 && hero.y < 626){  // descendre
 		hero.y +=66;
 		if(!checkStopWall()){
 			 hero.y -=66; 
 		}
     }
     
-    if(direction==37 && hero.x > 41){ // Player holding left
+    if(direction==37 && hero.x > 0){ // Player holding left
          
 		hero.x -=42;
 		if(!checkStopWall()){
@@ -323,7 +327,7 @@ var bgImageMain = new Image();
 bgImageMain.onload = function () {
 	bgReady = true;
 };
-bgImageMain.src = "ressources/images/TextureSolB.jpg";
+bgImageMain.src = "ressources/images/TextureSolB2.jpg";
 
 	
 // Background image GAME OVER
@@ -363,6 +367,7 @@ var checkBeforeStart = function () {
 
 var launchGame = function () {
     document.getElementById("cadreChoixPersonnage").style.display = "none";
+	document.getElementById("headerGame").style.display = "none";
 	
 	init();
 	
@@ -422,8 +427,8 @@ var init = function(){
     setTimer = setInterval(runningTimer, 1000);
       
     //Position de depart du hero
-	hero.x = 329;
-    hero.y = 726;
+	hero.x = (widthSize/2)-(42/2);
+    hero.y = 660;
 	
 	//position d'arrivée
 	arriveeX = 350;
@@ -434,9 +439,20 @@ var init = function(){
 	
 	theWalls.linesOfWalls.splice(0, theWalls.linesOfWalls.length);
 
-	var linWalls = [false, true, false, true,false, false, false, true,true, false];
+	var linWalls = [false, true, false, true,false, false, false, true,true,false];
 	
-   for(var i=0;i<10;i++){
+	var myRandomWalls = function(){
+		var x = getRandomInt(700);
+		
+		while(!((x%42)==0)){
+			console.log(x);
+			x = getRandomInt(700);
+		}
+		return x;
+	}
+	
+	
+   for(var i=0;i<9;i++){
 	   // var linWalls = [true, true, false, true false...]
 	   //if lineWalls = false do ...
         
@@ -446,10 +462,10 @@ var init = function(){
 			//let myCatlog = catalog[Math.random()*(catalog.length)];
 			let myCatlog = catalog[getRandomInt(8)];
 		
-			let newMonster = new monster(myRandom(newLineOfMonsters, myCatlog), newLineOfMonsters.y, myCatlog);
+			let newMonster = new monster(myRandomWalls(), newLineOfMonsters.y, myCatlog);
 			newLineOfMonsters.addMonster(newMonster);
 			
-			let newMonster2 = new monster(myRandom(newLineOfMonsters, myCatlog), newLineOfMonsters.y, myCatlog);
+			let newMonster2 = new monster(myRandomWalls(), newLineOfMonsters.y, myCatlog);
 			newLineOfMonsters.addMonster(newMonster2);
 			
 			theHorde.addLine(newLineOfMonsters);
@@ -718,11 +734,11 @@ var render= function(){
 	ctx.font = "24px Helvetica";
 	ctx.textAlign = "left";
 	ctx.textBaseline = "top";
-	ctx.fillText("Vie(s): " + monstersCaught, 32, 32);
+	ctx.fillText("Vie(s): " + monstersCaught, 32, 10);
     if(seconds<10){
-        ctx.fillText("Time : 0" + minute +":0" + seconds, 550, 32);
+        ctx.fillText("Time : 0" + minute +":0" + seconds, 550, 10);
     }
-    else {ctx.fillText("Time : 0" + minute +":" + seconds, 550, 32);}
+    else {ctx.fillText("Time : 0" + minute +":" + seconds, 550, 10);}
     
 }
 
