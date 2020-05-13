@@ -38,6 +38,7 @@ var hero = {
 };
 hero.heroImage.onload = function(){
 	hero.heroReady = true;
+	//window.requestAnimationFrame(gameLoop);
 }
 
 //joueur
@@ -257,13 +258,116 @@ for(let c of catalogWalls){
 	};
 }
 
+/***************
+
+test
+*************/
+
+// const SCALE = 1;
+// const WIDTH = 42;
+// const HEIGHT = 66;
+// const SCALED_WIDTH = SCALE * WIDTH;
+// const SCALED_HEIGHT = SCALE * HEIGHT;
+// const CYCLE_LOOP = [0, 1, 0, 2];
+// const FACING_DOWN = 0;
+// const FACING_UP = 1;
+// const FACING_LEFT = 2;
+// const FACING_RIGHT = 3;
+// const FRAME_LIMIT = 12;
+// const MOVEMENT_SPEED = 1;
+
+// let canvas = document.querySelector('canvas');
+// let ctx = canvas.getContext('2d');
+// let keyPresses = {};
+// let currentDirection = FACING_DOWN;
+// let currentLoopIndex = 0;
+// let frameCount = 0;
+// let positionX = 0;
+// let positionY = 0;
+// let img = new Image();
+
+// window.addEventListener('keydown', keyDownListener);
+// function keyDownListener(event) {
+    // keyPresses[event.key] = true;
+// }
+
+// window.addEventListener('keyup', keyUpListener);
+// function keyUpListener(event) {
+    // keyPresses[event.key] = false;
+// }
+
+// function loadImage() {
+  // img.src = 'https://opengameart.org/sites/default/files/Green-Cap-Character-16x18.png';
+ 
+  // hero.heroImage.onload = function() {
+    // window.requestAnimationFrame(gameLoop);
+  // };
+// }
+
+// function drawFrame(frameX, frameY, canvasX, canvasY) {
+  // ctx.drawImage(hero.heroImage,
+                // frameX * WIDTH, frameY * HEIGHT, WIDTH, HEIGHT,
+                // canvasX, canvasY, SCALED_WIDTH, SCALED_HEIGHT);
+// }
+
+
+
+// function gameLoop() {
+  // ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // let hasMoved = false;
+
+  // if (keyPresses.w) {
+    // moveCharacter(0, -MOVEMENT_SPEED, FACING_UP);
+    // hasMoved = true;
+  // } else if (keyPresses.s) {
+    // moveCharacter(0, MOVEMENT_SPEED, FACING_DOWN);
+    // hasMoved = true;
+  // }
+
+  // if (keyPresses.a) {
+    // moveCharacter(-MOVEMENT_SPEED, 0, FACING_LEFT);
+    // hasMoved = true;
+  // } else if (keyPresses.d) {
+    // moveCharacter(MOVEMENT_SPEED, 0, FACING_RIGHT);
+    // hasMoved = true;
+  // }
+
+  // if (hasMoved) {
+    // frameCount++;
+    // if (frameCount >= FRAME_LIMIT) {
+      // frameCount = 0;
+      // currentLoopIndex++;
+      // if (currentLoopIndex >= CYCLE_LOOP.length) {
+        // currentLoopIndex = 0;
+      // }
+    // }
+  // }
+
+  // if (!hasMoved) {
+    // currentLoopIndex = 0;
+  // }
+
+  // drawFrame(CYCLE_LOOP[currentLoopIndex], currentDirection, positionX, positionY);
+  // window.requestAnimationFrame(gameLoop);
+// }
+
+// function moveCharacter(deltaX, deltaY, direction) {
+  // if (positionX + deltaX > 0 && positionX + SCALED_WIDTH + deltaX < canvas.width) {
+    // positionX += deltaX;
+  // }
+  // if (positionY + deltaY > 0 && positionY + SCALED_HEIGHT + deltaY < canvas.height) {
+    // positionY += deltaY;
+  // }
+  // currentDirection = direction;
+// }
 
 /***************************************************************************
 				initialisation du catalogue d'image
 ***************************************************************************/
 addEventListener("keyup",function (e){
                  
-   // onkeyup = true;
+   onkeyup = true;
     
     let direction = e.keyCode;
    
@@ -299,18 +403,17 @@ addEventListener("keyup",function (e){
     }
 	
 	
-	/****************************************
-		Evennement bloquant walls
+	// /****************************************
+		// Evennement bloquant walls
 	
-	*****************************************/
+	// *****************************************/
 	
 	
 	
 	
 },false);
 
-    //effet lors du relachement de la touche
-    //a supprimer
+    
 
 addEventListener("keydown", function (e) {
 	onkeydown = true;
@@ -377,7 +480,7 @@ var launchGame = function () {
 	const url = "ressources/Personnages/";
 	switch(DropHero){
             case("imgPlayer1"):
-               	hero.heroImage.src=url + "hero01.png";
+               	hero.heroImage.src=url + "personnage1.png";
                 break;
             case("imgPlayer2"):
                 hero.heroImage.src=url + "hero02.png";
@@ -454,9 +557,7 @@ var init = function(){
 	
 	
    for(var i=0;i<9;i++){
-	   // var linWalls = [true, true, false, true false...]
-	   //if lineWalls = false do ...
-        
+
 		if(linWalls[i]===false){	
 			let newLineOfMonsters = new lineOfMonsters(position[i], 1);
 			
@@ -590,8 +691,8 @@ var checkColision = function(){
 	for(let line of theHorde.linesOfMonsters){
 		for(let monster of line.monsters){
 			if(touchDown(monster, hero)){
-				dead.play();
 				resolveCondition = false;
+				dead.play();
 				monstersCaught--;
 				clearInterval(setTimer);
 				init();
@@ -696,9 +797,11 @@ var render= function(){
         ctx.drawImage(bgImageMain,0,0);        
 	}
 
-	if (hero.heroReady) {
+	
+	 if (hero.heroReady) {
 		ctx.drawImage(hero.heroImage, hero.x, hero.y);
-	}
+		// window.requestAnimationFrame(gameLoop);
+	 }
 
     if(catalogIsReallyReady){
 		for (let i = 0; i<theHorde.linesOfMonsters.length; i++){
