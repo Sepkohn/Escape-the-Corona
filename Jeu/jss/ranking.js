@@ -25,7 +25,7 @@ var updateScore = function(player, scoreMinute, scoreSeconds){
 }
 
 var displayRanking = function(){
-	var ranking = document.getElementById("third");
+	var ranking = document.getElementById("ranking");
 	ranking.innerHTML="";
 	var palmares = JSON.parse(localStorage.getItem("palmares"));
 	
