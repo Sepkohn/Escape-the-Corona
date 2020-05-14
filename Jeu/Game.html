@@ -6,16 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="ressources/css/Game_Style.css">
 	<script src="jss/dragdrop.js"></script>
-    <script src="jss/pnj.js"></script>
-    <script src="jss/environnement.js"></script>
-    <script src="jss/hero.js"></script>
 	<script src="jss/ranking.js"></script>
 	<script src="jss/localisation.js"></script>
 </head>
 
 <body>
 
-	<header>
+	<header id="headerGame">
 		<a href="Game_Presentation.html">
 			<img src="ressources/images/logoW.png"/>
 		</a>
@@ -48,7 +45,7 @@
 				<img id="imgPlayer4" class="personnage" draggable="true" ondragstart="drag(event)" src="ressources/Personnages/perso04.png" />
 			</div>
 			<div class="fieldFormStart">
-				<img id="imgPlayer" class="imgPlayer" ondrop="drop(event)" ondragover="allowDrop(event)" src="ressources/dropzone.png" />
+				<img id="imgPlayer" class="imgPlayer" ondrop="drop(event)" ondragover="allowDrop(event)" src="ressources/Personnages/dropzone.png" />
 			</div>
 			<div class="fieldFormStart">
 				<input id="player" type="text" name="playerName" placeholder="Votre pseudo" />

@@ -79,8 +79,9 @@ main{
 }
 #cadreChoixPersonnage{
 	width:700px;
-	height:800px;
+	height:726px;
 	background-color:black;
+	position: relative;
 	
 }
 
