@@ -54,6 +54,138 @@ var player = "";
 
 
 /***************************************************************************
+					initialisation des niveaux
+***************************************************************************/
+var actualLevel;;
+
+var levels = [];
+
+var image = function(source, width, height){
+	this.source = source;
+	this.height = height;
+	this.width = width;	
+	
+	this.image = null;
+	this.isReady = false;
+}
+
+var loadCatalog = function(thisLevel){
+	for(let c of thisLevel.catalog){
+		c.image = new Image();
+		c.image.src = c.source;
+
+		c.image.onload = function(){
+			c.isReady = true;
+		};
+	}
+	
+	thisLevel.bgImageMain.onload = function () {
+		thisLevel.bgReady = true;
+	};
+	
+}
+
+var level = function(){
+	
+	this.catalog = [];
+	
+	this.bgReady = false;
+	this.bgImageMain;	
+	this.linWalls;
+	
+}
+
+
+/***************************************************************************
+					initialisation du niveau 1
+***************************************************************************/
+var level1 = new level();
+
+	level1.catalog[0] = new image("ressources/images/feb1D.png",25,66);
+	level1.catalog[1] = new image("ressources/images/feb2D.png",54,66);
+	level1.catalog[2] = new image("ressources/images/feb3D.png",84,66);
+	level1.catalog[3] = new image("ressources/images/fe1D.png",12,66);
+	level1.catalog[4] = new image("ressources/images/fe2D.png",32,66);
+	level1.catalog[5] = new image("ressources/images/fe3D.png",51,66);
+	level1.catalog[6] = new image("ressources/images/fe4D.png",70,66);
+	level1.catalog[7] = new image("ressources/images/ho1D.png",15,66);
+	level1.catalog[8] = new image("ressources/images/ho2D.png",34,66);
+	level1.catalog[9] = new image("ressources/images/ho3D.png",53,66);
+	level1.catalog[10] = new image("ressources/images/ho4D.png",73,66);
+
+	level1.bgImageMain = new Image();
+	level1.bgImageMain.src = "ressources/images/TextureSolB2.jpg";
+	
+	level1.linWalls = [false, true, false, true,false, false, false, true,true,false];
+
+
+loadCatalog(level1);
+
+	
+
+levels[0] = level1;
+
+
+/***************************************************************************
+					initialisation du niveau 2
+***************************************************************************/
+var level2 = new level();
+
+	level2.catalog[0] =new image("ressources/images/AmbuSmall.png",158,66);
+	level2.catalog[1] =new image("ressources/images/hd1.png",30,46);
+	level2.catalog[2] =new image("ressources/images/hd3.png",92,46);
+	level2.catalog[3] =new image("ressources/images/ambu1D.png",104,66);
+	level2.catalog[4] =new image("ressources/images/ambu2D.png",217,66);
+	level2.catalog[5] =new image("ressources/images/ambu3D.png",330,66);
+	level2.catalog[6] =new image("ressources/images/av1D.png",38,56);
+	level2.catalog[7] =new image("ressources/images/av2D.png",83,56);
+	level2.catalog[8] =new image("ressources/images/av1D.png",126,56);
+
+	level2.bgImageMain = new Image();
+	level2.bgImageMain.src = "ressources/images/TextureSolB2.jpg";
+	
+	level2.linWalls = [false, false, false, true, false, false, false, false, true, false];
+
+
+loadCatalog(level2);
+
+
+
+levels[1] = level2;
+
+
+/***************************************************************************
+					initialisation du niveau 3
+***************************************************************************/
+var level3 = new level();
+
+
+	level3.catalog[0] =new image("ressources/images/vie1D.png",26,66);
+	level3.catalog[1] =new image("ressources/images/vie2D.png",58,66);
+	level3.catalog[2] =new image("ressources/images/vie3D.png",91,66);
+	level3.catalog[3] =new image("ressources/images/combi3D.png",111,66);
+	level3.catalog[4] =new image("ressources/images/combi2D.png",72,66);
+	level3.catalog[5] =new image("ressources/images/combi1D.png",35,66);
+	level3.catalog[6] =new image("ressources/images/pou1D.png",59,66);
+	level3.catalog[7] =new image("ressources/images/pou2D.png",124,66);
+	level3.catalog[8] =new image("ressources/images/pou3D.png",190,66);
+
+	level3.bgImageMain = new Image();
+	level3.bgImageMain.src = "ressources/images/TextureSolB2.jpg";
+	
+	level3.linWalls = [false, false, false, false, false, false, false, false, false, false];
+
+
+loadCatalog(level3);
+
+	
+
+levels[2] = level3;
+
+
+
+
+/***************************************************************************
 					initialisation des monstres
 ***************************************************************************/
 
@@ -89,7 +221,6 @@ var lineOfMonsters = function(y, speed){
 var monster = function(x, y, catalogImage){
 	this.x=x;
 	this.y=y;
-	
 	this.monsterImage = catalogImage.image;
 	this.width=catalogImage.width;
 	this.height=catalogImage.height;
@@ -203,43 +334,34 @@ for(let i=0;i<10;i--){
 				initialisation du catalogue d'image
 ***************************************************************************/
 
-var image = function(source, width, height){
-	this.source = source;
-	this.height = height;
-	this.width = width;	
-	
-	this.image = null;
-	this.isReady = false;
-}
-
 //images disponibles
-var catalog = [];
-catalog[0] =new image("ressources/images/combi3D.png",111,66);
-catalog[1] =new image("ressources/images/combi2D.png",72,66);
-catalog[2] =new image("ressources/images/combi1D.png",35,66);
-catalog[3] =new image("ressources/images/feb3D.png",84,66);
-catalog[4] =new image("ressources/images/feb2D.png",54,66);
-catalog[5] =new image("ressources/images/feb1D.png",25,66);
-catalog[6] =new image("ressources/images/fe3D.png",51,66);
-catalog[7] =new image("ressources/images/ho4D.png",73,66);
-catalog[8] =new image("ressources/images/ho3D.png",53,66);
-catalog[9] =new image("ressources/images/ho2D.png",34,66);
-catalog[10] =new image("ressources/images/ho1D.png",15,66);
-catalog[11] =new image("ressources/images/vie3D.png",91,66);
-catalog[12] =new image("ressources/images/vie2D.png",58,66);
-catalog[13] =new image("ressources/images/vie1D.png",26,66);
-catalog[14] =new image("ressources/images/pou3D.png",190,66);
-catalog[15] =new image("ressources/images/pou2D.png",124,66);
-catalog[16] =new image("ressources/images/pou1D.png",59,66);
 
-for(let c of catalog){
-	c.image = new Image();
-	c.image.src = c.source;
-	
-	c.image.onload = function(){
-		c.isReady = true;
-	};
-}
+var catalog;
+
+
+
+
+/*catalog[12] =new image("ressources/images/Ambu.png",158,66);
+catalog[13] =new image("ressources/images/hd1.png",30,46);
+catalog[14] =new image("ressources/images/hd3.png",92,46);
+catalog[15] =new image("ressources/images/ambu1D.png",104,66);
+catalog[16] =new image("ressources/images/ambu2D.png",217,66);
+catalog[17] =new image("ressources/images/ambu3D.png",330,66);
+catalog[18] =new image("ressources/images/av1D.png",38,56);
+catalog[19] =new image("ressources/images/av2D.png",83,56);
+catalog[20] =new image("ressources/images/av1D.png",126,56);
+
+ 
+
+catalog[21] =new image("ressources/images/vie1D.png",26,66);
+catalog[22] =new image("ressources/images/vie2D.png",58,66);
+catalog[23] =new image("ressources/images/vie3D.png",91,66);
+catalog[24] =new image("ressources/images/combi3D.png",111,66);
+catalog[25] =new image("ressources/images/combi2D.png",72,66);
+catalog[26] =new image("ressources/images/combi1D.png",35,66);
+catalog[27] =new image("ressources/images/pou1D.png",59,66);
+catalog[28] =new image("ressources/images/pou2D.png",124,66);
+catalog[29] =new image("ressources/images/pou3D.png",190,66);*/
 
 /***************************************************************************
 				initialisation du catalogue d'image Murs
@@ -325,15 +447,8 @@ addEventListener("keydown", function (e) {
 					initialisation des backgrounds
 ***************************************************************************/
 
-// Background image START
-var bgReady = false;
-var bgImageMain = new Image();
-bgImageMain.onload = function () {
-	bgReady = true;
-};
-bgImageMain.src = "ressources/images/TextureSolB2.jpg";
+var bgImageMain;
 
-	
 // Background image GAME OVER
 var bgReadyEnd = false;
 var bgImageMainEnd = new Image();
@@ -426,6 +541,12 @@ function getRandomInt(max) {
 
 var init = function(){
 	 //reset du timer
+	actualLevel = levels[winScore];
+	
+	catalog = actualLevel.catalog;
+	
+	bgImageMain = actualLevel.bgImageMain;
+	
     minute=initialMinute;
     seconds =initialSeconds;
     setTimer = setInterval(runningTimer, 1000);
@@ -443,7 +564,7 @@ var init = function(){
 	
 	theWalls.linesOfWalls.splice(0, theWalls.linesOfWalls.length);
 
-	var linWalls = [false, true, false, true,false, false, false, true,true,false];
+	var linWalls = actualLevel.linWalls;
 	
 	var myRandomWalls = function(){
 		var x = getRandomInt(600);
@@ -463,7 +584,7 @@ var init = function(){
 			let newLineOfMonsters = new lineOfMonsters(position[i], 1);
 			
 			//let myCatlog = catalog[Math.random()*(catalog.length)];
-			let myCatlog = catalog[getRandomInt(8)];
+			let myCatlog = catalog[getRandomInt(catalog.length)];
 		
 			let newMonster = new monster(myRandom(newLineOfMonsters, myCatlog), newLineOfMonsters.y, myCatlog);
 			newLineOfMonsters.addMonster(newMonster);
@@ -608,7 +729,7 @@ for(let lineNew of theHorde.linesOfMonsters){
 			if(lineNew.monsters[i].x>700){
 				lineNew.monsters.splice(i,1);
 				//faire une condition qui reprend la position du dernier monstre de la ligne en cours, si delta + grand que x position, créer nouveau monstre
-				let newMonster = new monster(0, lineNew.y, catalog[getRandomInt(8)]);
+				let newMonster = new monster(0, lineNew.y, catalog[getRandomInt(catalog.length)]);
 				lineNew.addMonster(newMonster);
 			}
             
@@ -695,9 +816,9 @@ var catalogIsReallyReady = function(){
 
 var render= function(){
 	
-	if (bgReady) {
+	if (levels[winScore].bgReady) {
     //Image de fond
-        ctx.drawImage(bgImageMain,0,0);        
+        ctx.drawImage(levels[winScore].bgImageMain,0,0);        
 	}
 
 	if (hero.heroReady) {
