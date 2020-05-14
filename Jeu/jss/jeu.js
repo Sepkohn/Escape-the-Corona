@@ -247,7 +247,11 @@ for(let c of catalog){
 
 
 //images disponibles
-var catalogWalls = [new image("ressources/images/150.png",150,66)];
+var catalogWalls = []
+catalogWalls[0]= new image("ressources/images/42.png",42,66);
+catalogWalls[1]= new image("ressources/images/84.png",84,66);
+catalogWalls[2]= new image("ressources/images/126.png",126,66);
+
 for(let c of catalogWalls){
 	c.image = new Image();
 	c.image.src = c.source;
@@ -268,7 +272,6 @@ addEventListener("keyup",function (e){
     let direction = e.keyCode;
    
     if(direction==38 && hero.y > 0){ // monter
-			 console.log(hero.y);
 		hero.y -=66;
 		if(!checkStopWall()){
 			hero.y +=66;
@@ -283,14 +286,14 @@ addEventListener("keyup",function (e){
     }
     
     if(direction==37 && hero.x > 0){ // Player holding left
-         
+         console.log(hero.x);
 		hero.x -=42;
 		if(!checkStopWall()){
 			 hero.x +=42; 
 		}
     }
     
-    if(direction==39 && hero.x < 640){ // Player holding right
+    if(direction==39 && hero.x < 633){ // Player holding right
         
 		hero.x +=42; 
 		if(!checkStopWall()){
@@ -428,7 +431,7 @@ var init = function(){
     setTimer = setInterval(runningTimer, 1000);
       
     //Position de depart du hero
-	hero.x = (widthSize/2)-(42/2);
+	hero.x = (widthSize/2)-(42/2)+7;
     hero.y = 660;
 	
 	//position d'arrivée
@@ -443,11 +446,10 @@ var init = function(){
 	var linWalls = [false, true, false, true,false, false, false, true,true,false];
 	
 	var myRandomWalls = function(){
-		var x = getRandomInt(700);
+		var x = getRandomInt(600);
 		
 		while(!((x%42)==0)){
-			console.log(x);
-			x = getRandomInt(700);
+			x = getRandomInt(600);
 		}
 		return x;
 	}
@@ -463,10 +465,10 @@ var init = function(){
 			//let myCatlog = catalog[Math.random()*(catalog.length)];
 			let myCatlog = catalog[getRandomInt(8)];
 		
-			let newMonster = new monster(myRandomWalls(), newLineOfMonsters.y, myCatlog);
+			let newMonster = new monster(myRandom(newLineOfMonsters, myCatlog), newLineOfMonsters.y, myCatlog);
 			newLineOfMonsters.addMonster(newMonster);
 			
-			let newMonster2 = new monster(myRandomWalls(), newLineOfMonsters.y, myCatlog);
+			let newMonster2 = new monster(myRandom(newLineOfMonsters, myCatlog), newLineOfMonsters.y, myCatlog);
 			newLineOfMonsters.addMonster(newMonster2);
 			
 			theHorde.addLine(newLineOfMonsters);
@@ -475,12 +477,13 @@ var init = function(){
 			let newLineOfWalls = new linesOfWalls(position[i], 1);
 			
 			//let myCatlog = catalog[Math.random()*(catalog.length)];
-			let myCatlog = catalogWalls[0];
+			let myCatlog = catalogWalls[getRandomInt(3)];
 			
-			let newWall = new wall(Math.floor(Math.random()*600), newLineOfWalls.y, myCatlog);
+			let newWall = new wall(myRandomWalls(), newLineOfWalls.y, myCatlog);
+			console.log(newWall.x);
 			newLineOfWalls.addWalls(newWall);
 			
-			let newWall2 = new wall(Math.floor(Math.random()*600), newLineOfWalls.y, myCatlog);
+			let newWall2 = new wall(myRandomWalls(), newLineOfWalls.y, myCatlog);
 			newLineOfWalls.addWalls(newWall2);
 			
 			
@@ -602,9 +605,9 @@ var checkColision = function(){
 
 for(let lineNew of theHorde.linesOfMonsters){
         for(let i = 0; i< lineNew.monsters.length; i++){
-			if(lineNew.monsters[i].x>650){
+			if(lineNew.monsters[i].x>700){
 				lineNew.monsters.splice(i,1);
-				
+				//faire une condition qui reprend la position du dernier monstre de la ligne en cours, si delta + grand que x position, créer nouveau monstre
 				let newMonster = new monster(0, lineNew.y, catalog[getRandomInt(8)]);
 				lineNew.addMonster(newMonster);
 			}
@@ -652,6 +655,7 @@ var passFinishLine = function(hero){
 
 
 var gameOver = function(){
+	document.getElementById("headerGame").style.display = "block";
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
     ctx.drawImage(bgImageMainEnd,0,0);
