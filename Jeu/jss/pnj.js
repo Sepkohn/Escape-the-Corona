@@ -1,5 +1,16 @@
-function monster(w,h,i){
-	this.speed=100;
+function couloir(i, spanzone, s, nb) {
+    this.i = i;
+    this.i = i;
+    this.i = i;
+    this.i = i;
+    this.monsters = Array;
+    for () {
+        
+    }
+}
+
+function monster(w,h,i, s){
+	this.speed=s;
 	this.x=0;
 	this.y=0;
 	this.width=w;
@@ -11,12 +22,12 @@ function monster(w,h,i){
 }
 
 
-monster.prototype.marche = function(x){
-	this.x+=x;
+monster.prototype.marche = function(){
+	this.x+=this.speed;
 }
 
 
-var monster1 = new monster(111,66,"ressources/combi3D.png");
+var monster1 = new monster(111,66,"ressources/combi3D.png", 10);
 var monster2 = new monster(111,66,"ressources/combi2.png");
 var monster3 = new monster(111,66,"ressources/combi3D.png");
 var monster4 = new monster(111,66,"ressources/combi2.png");
@@ -31,14 +42,14 @@ var monster10 = new monster(111,66,"ressources/combi3D.png");
 var monsters = [monster1,monster2,monster3,monster4,monster5,monster6,monster7,monster8,monster9,monster10];
 
 function monsterAction(){
-	monster1.marche(1);
-	monster2.marche(2);
-	monster3.marche(2);
-	monster4.marche(1);
-	monster5.marche(3);
-	monster6.marche(1);
-	monster7.marche(1);
-	monster8.marche(1);
-	monster9.marche(1);
-	monster10.marche(1);   
+	monster1.marche();
+	monster2.marche();
+	monster3.marche();
+	monster4.marche();
+	monster5.marche();
+	monster6.marche();
+	monster7.marche();
+	monster8.marche();
+	monster9.marche();
+	monster10.marche();   
 }

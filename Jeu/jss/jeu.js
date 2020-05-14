@@ -266,14 +266,43 @@ var render = function () {
 	}
 
     
+
     
+    //createPnj();
+
+    
+    //w.RequestAnimationFrame(createPnj());
+    
+   
+    /*
+    setTimeout (function createPnj(){
+
+    var test = 0;
+    
+    for (var i = 0; i<monsters.length; i++){
+        var monsterImage = new Image();  
+        monsterImage.src = monsters[i].monsterImage;  
+		ctx.drawImage(monsterImage, monsters[i].x, monsters[i].y);       
+    }  
+    
+    test++;
+    console.log("Nmbre de test = "+ test);
+    
+    setTimeout(createPnj(),10000);
+}, 10000);
+
+*/
+    
+    
+    
+    /*
     for (var i = 0; i<monsters.length; i++){
         var monsterImage = new Image();  
         monsterImage.src = monsters[i].monsterImage;  
         //console.log(monsterImage);
 		ctx.drawImage(monsterImage, monsters[i].x, monsters[i].y);       
     }   
-    
+    */
 
 	// Score
 	ctx.fillStyle = "rgb(250, 250, 250)";
@@ -288,6 +317,73 @@ var render = function () {
     
 };
 
+
+
+
+
+var createPnj = function(){
+    
+    
+    
+    for (var i = 0; i<monsters.length; i++){
+        var monsterImage = new Image();  
+        monsterImage.src = monsters[i].monsterImage;  
+		ctx.drawImage(monsterImage, monsters[i].x, monsters[i].y);   
+    } 
+    
+    
+    /*
+    const INTERVAL = 1000;	// in milliseconds
+    monsters.forEach((item, index) => {
+	setTimeout(() => {
+		
+        var monsterImage = new Image();  
+        monsterImage.src = monsters[index].monsterImage;  
+		ctx.drawImage(monsterImage, monsters[index].x, monsters[index].y);  
+        
+        console.log("Je fais quelque chose")
+        
+	}, INTERVAL*index);
+    });
+    */
+    
+    //boucleMonster();
+    
+   //w.RequestAnimationFrame(createPnj());
+}
+
+
+  
+
+
+var boucleMonster = function(){   
+    
+    for (var i = 0; i<monsters.length; i++){
+        var monsterImage = new Image();  
+        monsterImage.src = monsters[i].monsterImage;  
+		ctx.drawImage(monsterImage, monsters[i].x, monsters[i].y);       
+    }  
+    
+}
+
+
+
+/*
+var createPnj = function(){
+    
+    for (var i = 0; i<monsters.length; i++){
+        var monsterImage = new Image();  
+        monsterImage.src = monsters[i].monsterImage;  
+        //console.log(monsterImage);
+		ctx.drawImage(monsterImage, monsters[i].x, monsters[i].y);       
+    }  
+    
+   // w.RequestAnimationFrame(createPnj());
+}
+*/
+
+
+
     // The main game loop
 var main = function () {
 	var now = Date.now();
@@ -295,6 +391,10 @@ var main = function () {
 	update(delta / 1000);
 
 	render();
+    
+    createPnj();
+    
+    
 	then = now;
 
     if(monstersCaught===0){
