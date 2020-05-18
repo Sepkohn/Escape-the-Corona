@@ -6,7 +6,7 @@
 
 var gameInProgress = true;
 
-const widthSize=700;
+const widthSize=714;
 // Creer le canvas
 var canvas = document.createElement("canvas");
 var ctx = canvas.getContext("2d");
@@ -114,7 +114,7 @@ var level1 = new level();
 	level1.catalog[10] = new image("ressources/images/ho4D.png",73,66);
 
 	level1.bgImageMain = new Image();
-	level1.bgImageMain.src = "ressources/images/TextureSolB2.jpg";
+	level1.bgImageMain.src = "ressources/images/SolNiv1.jpg";
 	
 	level1.linWalls = [false, true, false, true,false, false, false, true,true,false];
 
@@ -142,7 +142,7 @@ var level2 = new level();
 	level2.catalog[8] =new image("ressources/images/av1D.png",126,56);
 
 	level2.bgImageMain = new Image();
-	level2.bgImageMain.src = "ressources/images/TextureSolB2.jpg";
+	level2.bgImageMain.src = "ressources/images/SolNiv2.jpg";
 	
 	level2.linWalls = [false, false, false, true, false, false, false, false, true, false];
 
@@ -171,7 +171,7 @@ var level3 = new level();
 	level3.catalog[8] =new image("ressources/images/pou3D.png",190,66);
 
 	level3.bgImageMain = new Image();
-	level3.bgImageMain.src = "ressources/images/TextureSolB2.jpg";
+	level3.bgImageMain.src = "ressources/images/SolNiv3.jpg";
 	
 	level3.linWalls = [false, false, false, false, false, false, false, false, false, false];
 
@@ -325,7 +325,7 @@ var finishY=0;
 
 //positions y disponibles
 const h = 66;
-var position = [h,h*2,h*3,h*4,h*5,h*6,h*7,h*8,h*9,h*10];
+var position = [0,h,h*2,h*3,h*4,h*5,h*6,h*7,h*8,h*9,h*10];
 /*
 for(let i=0;i<10;i--){
 	position[i]=h*i
@@ -373,6 +373,11 @@ var catalogWalls = []
 catalogWalls[0]= new image("ressources/images/42.png",42,66);
 catalogWalls[1]= new image("ressources/images/84.png",84,66);
 catalogWalls[2]= new image("ressources/images/126.png",126,66);
+catalogWalls[3]= new image("ressources/images/baR01.png",126,66);
+catalogWalls[4]= new image("ressources/images/baJ01.png",126,65);
+catalogWalls[5]= new image("ressources/images/polF.png",84,59);
+catalogWalls[6]= new image("ressources/images/polC.png",126,47);
+
 
 for(let c of catalogWalls){
 	c.image = new Image();
@@ -552,7 +557,7 @@ var init = function(){
     setTimer = setInterval(runningTimer, 1000);
       
     //Position de depart du hero
-	hero.x = (widthSize/2)-(42/2)+7;
+	hero.x = (widthSize/2)-(42/2);
     hero.y = 660;
 	
 	//position d'arrivée
@@ -567,16 +572,16 @@ var init = function(){
 	var linWalls = actualLevel.linWalls;
 	
 	var myRandomWalls = function(){
-		var x = getRandomInt(600);
+		var x = getRandomInt(700);
 		
 		while(!((x%42)==0)){
-			x = getRandomInt(600);
+			x = getRandomInt(700);
 		}
 		return x;
 	}
 	
 	
-   for(var i=0;i<9;i++){
+   for(var i=0;i<10;i++){
 	   // var linWalls = [true, true, false, true false...]
 	   //if lineWalls = false do ...
         
@@ -598,7 +603,7 @@ var init = function(){
 			let newLineOfWalls = new linesOfWalls(position[i], 1);
 			
 			//let myCatlog = catalog[Math.random()*(catalog.length)];
-			let myCatlog = catalogWalls[getRandomInt(3)];
+			let myCatlog = catalogWalls[getRandomInt(4)];
 			
 			let newWall = new wall(myRandomWalls(), newLineOfWalls.y, myCatlog);
 			console.log(newWall.x);
@@ -726,7 +731,7 @@ var checkColision = function(){
 
 for(let lineNew of theHorde.linesOfMonsters){
         for(let i = 0; i< lineNew.monsters.length; i++){
-			if(lineNew.monsters[i].x>700){
+			if(lineNew.monsters[i].x>714){
 				lineNew.monsters.splice(i,1);
 				//faire une condition qui reprend la position du dernier monstre de la ligne en cours, si delta + grand que x position, créer nouveau monstre
 				let newMonster = new monster(0, lineNew.y, catalog[getRandomInt(catalog.length)]);
@@ -779,7 +784,7 @@ var gameOver = function(){
 	document.getElementById("headerGame").style.display = "block";
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    ctx.drawImage(bgImageMainEnd,0,0);
+    ctx.drawImage(bgImageMainEnd,0,0,714,726);
     ctx.drawImage(gaov,200,150);
 	
     return; 
