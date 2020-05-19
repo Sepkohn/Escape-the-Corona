@@ -388,7 +388,7 @@ for(let c of catalogWalls){
 	};
 }
 
-
+var status;
 /***************************************************************************
 				initialisation du catalogue d'image
 ***************************************************************************/
@@ -403,6 +403,7 @@ addEventListener("keyup",function (e){
 		if(!checkStopWall()){
 			hero.y +=66;
 		}
+		status="haut";
     }
     
     if(direction==40 && hero.y < 626){  // descendre
@@ -410,14 +411,15 @@ addEventListener("keyup",function (e){
 		if(!checkStopWall()){
 			 hero.y -=66; 
 		}
+		status="bas";
     }
     
     if(direction==37 && hero.x > 0){ // Player holding left
-         console.log(hero.x);
 		hero.x -=42;
 		if(!checkStopWall()){
 			 hero.x +=42; 
 		}
+		status="gauche";
     }
     
     if(direction==39 && hero.x < 633){ // Player holding right
@@ -426,6 +428,7 @@ addEventListener("keyup",function (e){
 		if(!checkStopWall()){
 			 hero.x -=42; 
 		}
+		status="droite";
     }
 	
 	
@@ -500,7 +503,7 @@ var launchGame = function () {
 	const url = "ressources/Personnages/";
 	switch(DropHero){
             case("imgPlayer1"):
-               	hero.heroImage.src=url + "hero01.png";
+               	hero.heroImage.src=url + "sprite1.png";
                 break;
             case("imgPlayer2"):
                 hero.heroImage.src=url + "hero02.png";
@@ -823,11 +826,31 @@ var render= function(){
 	
 	if (levels[winScore].bgReady) {
     //Image de fond
-        ctx.drawImage(levels[winScore].bgImageMain,0,0);        
+
+		ctx.drawImage(levels[winScore].bgImageMain,0,0);    
+	
 	}
 
 	if (hero.heroReady) {
-		ctx.drawImage(hero.heroImage, hero.x, hero.y);
+		    
+	switch(status){
+		
+		case "haut":
+		ctx.drawImage(hero.heroImage,0,66,42,66,hero.x, hero.y,42,66);
+					break;
+		case "bas":
+		ctx.drawImage(hero.heroImage,0,0,42,66,hero.x, hero.y,42,66);
+					break;
+		case "gauche":
+		ctx.drawImage(hero.heroImage,0,132,42,66,hero.x, hero.y,42,66);     
+					break;
+		case "droite":
+		ctx.drawImage(hero.heroImage,0,198,41,66,hero.x, hero.y,41,66);      
+					break;				
+        
+		}
+		
+		//ctx.drawImage(hero.heroImage, hero.x, hero.y, hero.width, hero.height);
 	}
 
     if(catalogIsReallyReady){
@@ -837,7 +860,7 @@ var render= function(){
 			for (let j = 0; j<actualLineOfMonsters.monsters.length; j++){
 				let actualMonster = actualLineOfMonsters.monsters[j];
 				
-				ctx.drawImage(actualMonster.monsterImage, actualMonster.x, actualLineOfMonsters.y);
+				ctx.drawImage(actualMonster.monsterImage, actualMonster.x, actualLineOfMonsters.y,actualMonster.width,actualMonster.height);
 				
 			}      
 		}  
@@ -849,7 +872,7 @@ var render= function(){
 			
 			for (let j = 0; j<actualLineOfWalls.walls.length; j++){
 				let actualWall = actualLineOfWalls.walls[j];
-				ctx.drawImage(actualWall.wallImage, actualWall.x, actualLineOfWalls.y);
+				ctx.drawImage(actualWall.wallImage, actualWall.x, actualLineOfWalls.y,actualWall.width,actualWall.height);
 				
 			}      
 		}  
