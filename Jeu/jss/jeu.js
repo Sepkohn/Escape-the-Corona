@@ -131,7 +131,7 @@ levels[0] = level1;
 ***************************************************************************/
 var level2 = new level();
 
-	level2.catalog[0] =new image("ressources/images/AmbuSmall.png",158,66);
+	level2.catalog[0] =new image("ressources/images/AmbuSmall.png",120,50);
 	level2.catalog[1] =new image("ressources/images/hd1.png",30,46);
 	level2.catalog[2] =new image("ressources/images/hd3.png",92,46);
 	level2.catalog[3] =new image("ressources/images/ambu1D.png",104,66);
@@ -139,7 +139,7 @@ var level2 = new level();
 	level2.catalog[5] =new image("ressources/images/ambu3D.png",330,66);
 	level2.catalog[6] =new image("ressources/images/av1D.png",38,56);
 	level2.catalog[7] =new image("ressources/images/av2D.png",83,56);
-	level2.catalog[8] =new image("ressources/images/av1D.png",126,56);
+	level2.catalog[8] =new image("ressources/images/av3D.png",126,56);
 
 	level2.bgImageMain = new Image();
 	level2.bgImageMain.src = "ressources/images/SolNiv2.jpg";
@@ -842,12 +842,13 @@ var render= function(){
 		ctx.drawImage(hero.heroImage,0,0,42,66,hero.x, hero.y,42,66);
 					break;
 		case "gauche":
-		ctx.drawImage(hero.heroImage,0,132,42,66,hero.x, hero.y,42,66);     
+		ctx.drawImage(hero.heroImage,0,132,30,66,hero.x, hero.y,42,66);     
 					break;
 		case "droite":
-		ctx.drawImage(hero.heroImage,0,198,41,66,hero.x, hero.y,41,66);      
+		ctx.drawImage(hero.heroImage,0,198,30,66,hero.x, hero.y,41,66);      
 					break;				
-        
+        default:
+		ctx.drawImage(hero.heroImage,0,66,42,66,hero.x, hero.y,42,66);
 		}
 		
 		//ctx.drawImage(hero.heroImage, hero.x, hero.y, hero.width, hero.height);
