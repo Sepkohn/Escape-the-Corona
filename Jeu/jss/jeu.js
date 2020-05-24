@@ -57,6 +57,7 @@ var player = "";
 					initialisation des niveaux
 ***************************************************************************/
 var actualLevel;;
+var maxWidth;
 
 var levels = [];
 
@@ -70,6 +71,7 @@ var image = function(source, width, height){
 }
 
 var loadCatalog = function(thisLevel){
+	var maxWidth = 0;
 	for(let c of thisLevel.catalog){
 		c.image = new Image();
 		c.image.src = c.source;
@@ -77,6 +79,7 @@ var loadCatalog = function(thisLevel){
 		c.image.onload = function(){
 			c.isReady = true;
 		};
+		
 	}
 	
 	thisLevel.bgImageMain.onload = function () {
@@ -113,6 +116,7 @@ var level1 = new level();
 	level1.catalog[9] = new image("ressources/images/ho3D.png",53,66);
 	level1.catalog[10] = new image("ressources/images/ho4D.png",73,66);
 
+
 	level1.bgImageMain = new Image();
 	level1.bgImageMain.src = "ressources/images/SolNiv1.jpg";
 	
@@ -136,10 +140,9 @@ var level2 = new level();
 	level2.catalog[2] =new image("ressources/images/hd3.png",92,46);
 	level2.catalog[3] =new image("ressources/images/ambu1D.png",104,66);
 	level2.catalog[4] =new image("ressources/images/ambu2D.png",217,66);
-	level2.catalog[5] =new image("ressources/images/ambu3D.png",330,66);
-	level2.catalog[6] =new image("ressources/images/av1D.png",38,56);
-	level2.catalog[7] =new image("ressources/images/av2D.png",83,56);
-	level2.catalog[8] =new image("ressources/images/av3D.png",126,56);
+	level2.catalog[5] =new image("ressources/images/av1D.png",38,56);
+	level2.catalog[6] =new image("ressources/images/av2D.png",83,56);
+	level2.catalog[7] =new image("ressources/images/av3D.png",126,56);
 
 	level2.bgImageMain = new Image();
 	level2.bgImageMain.src = "ressources/images/SolNiv2.jpg";
@@ -334,34 +337,10 @@ for(let i=0;i<10;i--){
 				initialisation du catalogue d'image
 ***************************************************************************/
 
-//images disponibles
+//images disponibles => défini selon le noiveau
 
 var catalog;
 
-
-
-
-/*catalog[12] =new image("ressources/images/Ambu.png",158,66);
-catalog[13] =new image("ressources/images/hd1.png",30,46);
-catalog[14] =new image("ressources/images/hd3.png",92,46);
-catalog[15] =new image("ressources/images/ambu1D.png",104,66);
-catalog[16] =new image("ressources/images/ambu2D.png",217,66);
-catalog[17] =new image("ressources/images/ambu3D.png",330,66);
-catalog[18] =new image("ressources/images/av1D.png",38,56);
-catalog[19] =new image("ressources/images/av2D.png",83,56);
-catalog[20] =new image("ressources/images/av1D.png",126,56);
-
- 
-
-catalog[21] =new image("ressources/images/vie1D.png",26,66);
-catalog[22] =new image("ressources/images/vie2D.png",58,66);
-catalog[23] =new image("ressources/images/vie3D.png",91,66);
-catalog[24] =new image("ressources/images/combi3D.png",111,66);
-catalog[25] =new image("ressources/images/combi2D.png",72,66);
-catalog[26] =new image("ressources/images/combi1D.png",35,66);
-catalog[27] =new image("ressources/images/pou1D.png",59,66);
-catalog[28] =new image("ressources/images/pou2D.png",124,66);
-catalog[29] =new image("ressources/images/pou3D.png",190,66);*/
 
 /***************************************************************************
 				initialisation du catalogue d'image Murs
@@ -480,6 +459,13 @@ gaov.src = "ressources/images/gaov.png";
 ***************************************************************************/
 
 var checkBeforeStart = function () {
+	//creation du palmares si besoin
+	if (localStorage.getItem("palmares") === null) {
+        localStorage.setItem("palmares", JSON.stringify(palmares));
+    }
+	
+	displayRanking();
+	
     player = document.getElementById("player").value;
    
     var droptest = document.getElementById("imgPlayer").src;
@@ -489,6 +475,7 @@ var checkBeforeStart = function () {
         alert("Veuillez entrer un pseudo et choisir un joueur");
     }else{
         launchGame();
+		document.getElementById("startBtn").style.visibility ="hidden";
     }
 }
 
@@ -518,10 +505,7 @@ var launchGame = function () {
     }
     //ambiance.play();
 	
-	//creation du palmares si besoin
-	if (localStorage.getItem("palmares") === null) {
-        localStorage.setItem("palmares", JSON.stringify(palmares));
-    }
+	
 }
 
 /***************************************************************************
@@ -533,9 +517,9 @@ var myRandom = function(newLineOfMonsters, myCatlog){
 	var x;
 	while(!position){
 		position = true;
-		x = (Math.random()*500) + 112;
+		x = (Math.random()*(500+maxWidth)) - maxWidth ;
 		for(let monster of newLineOfMonsters.monsters){
-			if(x< monster.x+monster.width && x + myCatlog.width > monster.x){
+			if(x< monster.x+maxWidth && x + maxWidth> monster.x){
 				position=false;
 			}
 		}
@@ -548,78 +532,106 @@ function getRandomInt(max) {
 }
 
 var init = function(){
-	 //reset du timer
-	actualLevel = levels[winScore];
 	
-	catalog = actualLevel.catalog;
-	
-	bgImageMain = actualLevel.bgImageMain;
-	
-    minute=initialMinute;
-    seconds =initialSeconds;
-    setTimer = setInterval(runningTimer, 1000);
-      
-    //Position de depart du hero
-	hero.x = (widthSize/2)-(42/2);
-    hero.y = 660;
-	
-	//position d'arrivée
-	arriveeX = 350;
-	arriveeY = 0;
-
-
-	theHorde.linesOfMonsters.splice(0, theHorde.linesOfMonsters.length);
-	
-	theWalls.linesOfWalls.splice(0, theWalls.linesOfWalls.length);
-
-	var linWalls = actualLevel.linWalls;
-	
-	var myRandomWalls = function(){
-		var x = getRandomInt(700);
-		
-		while(!((x%42)==0)){
-			x = getRandomInt(700);
-		}
-		return x;
+	//reset des monstres
+	for(var line of theHorde.linesOfMonsters){
+		line.monsters.splice(0,line.monsters.length);
 	}
 	
+	theHorde.linesOfMonsters.splice(0, theHorde.linesOfMonsters.length);
+
+	//reset des murs
+	for(var line of theWalls.linesOfWalls){
+		line.walls.splice(0,line.walls.length);
+	}
 	
-   for(var i=0;i<10;i++){
-	   // var linWalls = [true, true, false, true false...]
-	   //if lineWalls = false do ...
-        
-		if(linWalls[i]===false){	
-			let newLineOfMonsters = new lineOfMonsters(position[i], 1);
-			
-			//let myCatlog = catalog[Math.random()*(catalog.length)];
-			let myCatlog = catalog[getRandomInt(catalog.length)];
+	theWalls.linesOfWalls.splice(0, theWalls.linesOfWalls.length);
+	
+	if(winScore!=3){
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+		actualLevel = levels[winScore];
 		
-			let newMonster = new monster(myRandom(newLineOfMonsters, myCatlog), newLineOfMonsters.y, myCatlog);
-			newLineOfMonsters.addMonster(newMonster);
-			
-			let newMonster2 = new monster(myRandom(newLineOfMonsters, myCatlog), newLineOfMonsters.y, myCatlog);
-			newLineOfMonsters.addMonster(newMonster2);
-			
-			theHorde.addLine(newLineOfMonsters);
-			
-		}else{
-			let newLineOfWalls = new linesOfWalls(position[i], 1);
-			
-			//let myCatlog = catalog[Math.random()*(catalog.length)];
-			let myCatlog = catalogWalls[getRandomInt(4)];
-			
-			let newWall = new wall(myRandomWalls(), newLineOfWalls.y, myCatlog);
-			console.log(newWall.x);
-			newLineOfWalls.addWalls(newWall);
-			
-			let newWall2 = new wall(myRandomWalls(), newLineOfWalls.y, myCatlog);
-			newLineOfWalls.addWalls(newWall2);
-			
-			
-			theWalls.addLine(newLineOfWalls);
+		maxWidth = 0;
+		
+		for(var c of actualLevel.catalog){
+			if(c.image.width>maxWidth){
+				maxWidth=c.image.width;
+			}
 		}
-		
-    } 
+
+		catalog = actualLevel.catalog;
+
+		bgImageMain = actualLevel.bgImageMain;
+
+
+		//reset du timer
+		minute=initialMinute;
+		seconds =initialSeconds;
+		setTimer = setInterval(runningTimer, 1000);
+
+		//Position de depart du hero
+		hero.x = (widthSize/2)-(42/2);
+		hero.y = 660;
+
+		//position d'arrivée
+		arriveeX = 350;
+		arriveeY = 0;
+
+
+		theHorde.linesOfMonsters.splice(0, theHorde.linesOfMonsters.length);
+
+		theWalls.linesOfWalls.splice(0, theWalls.linesOfWalls.length);
+
+		var linWalls = actualLevel.linWalls;
+
+		var myRandomWalls = function(){
+			var x = getRandomInt(700);
+
+			while(!((x%42)==0)){
+				x = getRandomInt(700);
+			}
+			return x;
+		}
+
+
+	   for(var i=0;i<10;i++){
+		   // var linWalls = [true, true, false, true false...]
+		   //if lineWalls = false do ...
+
+			if(linWalls[i]===false){	
+				let newLineOfMonsters = new lineOfMonsters(position[i], 1);
+
+				//let myCatlog = catalog[Math.random()*(catalog.length)];
+				let myCatlog = catalog[getRandomInt(catalog.length)];
+
+				let newMonster = new monster(myRandom(newLineOfMonsters, myCatlog), newLineOfMonsters.y, myCatlog);
+				newLineOfMonsters.addMonster(newMonster);
+
+				let newMonster2 = new monster(myRandom(newLineOfMonsters, myCatlog), newLineOfMonsters.y, myCatlog);
+				newLineOfMonsters.addMonster(newMonster2);
+				
+				theHorde.addLine(newLineOfMonsters);
+
+			}else{
+				let newLineOfWalls = new linesOfWalls(position[i], 1);
+
+				//let myCatlog = catalog[Math.random()*(catalog.length)];
+				let myCatlog = catalogWalls[getRandomInt(4)];
+
+				let newWall = new wall(myRandomWalls(), newLineOfWalls.y, myCatlog);
+				console.log(newWall.x);
+				newLineOfWalls.addWalls(newWall);
+
+				let newWall2 = new wall(myRandomWalls(), newLineOfWalls.y, myCatlog);
+				newLineOfWalls.addWalls(newWall2);
+
+
+				theWalls.addLine(newLineOfWalls);
+			}
+
+		} 
+	}
 	
 	
 	myReq = requestAnimationFrame(main);
@@ -671,7 +683,6 @@ resolve = function(){
         return false;
     }
 	if(winScore===3){
-		winScore++;
 		endGame(0);
 		return false;
 		}
@@ -725,7 +736,7 @@ var checkColision = function(){
 				dead.play();
 				resolveCondition = false;
 				monstersCaught--;
-				clearInterval(setTimer);
+				stopTimer;
 				init();
 				return;
 			}
@@ -737,7 +748,8 @@ for(let lineNew of theHorde.linesOfMonsters){
 			if(lineNew.monsters[i].x>714){
 				lineNew.monsters.splice(i,1);
 				//faire une condition qui reprend la position du dernier monstre de la ligne en cours, si delta + grand que x position, créer nouveau monstre
-				let newMonster = new monster(0, lineNew.y, catalog[getRandomInt(catalog.length)]);
+				console.log("max width : " + maxWidth);
+				let newMonster = new monster(0-maxWidth, lineNew.y, catalog[getRandomInt(catalog.length)]);
 				lineNew.addMonster(newMonster);
 			}
             
@@ -766,6 +778,7 @@ var checkFinishLine = function(){
 		
     if (passFinishLine(hero)){
         stopTimer();
+		
 		winScore++;
 		resolveCondition = false;
 		init();
@@ -790,7 +803,15 @@ var gameOver = function(){
     ctx.drawImage(bgImageMainEnd,0,0,714,726);
     ctx.drawImage(gaov,200,150);
 	
+	var button = document.getElementById("restartBtn");
+	button.style.visibility = "visible"
+	//button.value = "Restart";
+	
     return; 
+}
+
+var restart = function(){
+	window.location.reload()
 }
 
 var win = function(){
@@ -813,10 +834,20 @@ var endGame = function(i){
 							Rendu
 ***************************************************************************/
 var catalogIsReallyReady = function(){
-	let ready = false;
+	let ready = true;
 	for(let i=0;i<=catalog.length;i++){
-		if(catalog[i].isReady){
-			ready=true;
+		if(!catalog[i].isReady){
+			ready=false;
+		}
+	}
+	return ready;
+}
+
+var catalogWallsIsReallyReady = function(){
+	let ready = true;
+	for(let i=0;i<=catalogWalls.length;i++){
+		if(!catalogWalls[i].isReady){
+			ready=false;
 		}
 	}
 	return ready;
@@ -867,7 +898,7 @@ var render= function(){
 		}  
 	}
 	
-	if(catalogWalls[0].isReady){
+	if(catalogWallsIsReallyReady){
 		for (let i = 0; i<theWalls.linesOfWalls.length; i++){
 			var actualLineOfWalls = theWalls.linesOfWalls[i];
 			
@@ -878,12 +909,6 @@ var render= function(){
 			}      
 		}  
 	}
-	
-	
-	
-	
-	
-    
 
 	// Score
 	ctx.fillStyle = "rgb(250, 250, 250)";
