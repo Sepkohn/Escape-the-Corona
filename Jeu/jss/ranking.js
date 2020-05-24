@@ -19,7 +19,7 @@ var updateScore = function(player, scoreMinute, scoreSeconds){
 	
 	console.log("My place in the palmares : " + placeInPalmares);
 	
-	palmares.splice(placeInPalmares, 0, player+ ',' + geoUser + '|' + scoreMinute +'|' + scoreSeconds);
+	palmares.splice(placeInPalmares, 0, player+ ' from ' + geoUser + '|' + scoreMinute +'|' + scoreSeconds);
 
     localStorage.setItem("palmares", JSON.stringify(palmares));
 }
