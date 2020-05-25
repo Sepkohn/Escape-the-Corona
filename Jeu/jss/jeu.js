@@ -25,7 +25,7 @@ winScore = 0;
 //musique
 var ambiance = new Audio("../Jeu/ressources/sound/doom.mp3");
 var dead = new Audio("../Jeu/ressources/sound/argh.wav");
-
+var holy = new Audio("../Jeu/ressources/sound/Holy2.wav");
 //heros
 var hero = {
     x: 0,
@@ -493,13 +493,13 @@ var launchGame = function () {
                	hero.heroImage.src=url + "sprite1.png";
                 break;
             case("imgPlayer2"):
-                hero.heroImage.src=url + "hero02.png";
+                hero.heroImage.src=url + "sprite2.png";
                 break;
             case("imgPlayer3"):
-                hero.heroImage.src=url + "hero03.png";
+                hero.heroImage.src=url + "sprite3.png";
                 break;
             case("imgPlayer4"):
-                hero.heroImage.src=url + "hero04.png";
+                hero.heroImage.src=url + "sprite4.png";
                 break;
 			
     }
@@ -792,23 +792,20 @@ var passFinishLine = function(hero){
 		if(arriveeX >= hero.x + hero.width || arriveeX + hero.width <= hero.x || arriveeY <= hero.y - hero.height  || arriveeY - hero.height >= hero.y){
 			return false;
 		}
+		holy.play();
 		return true;
 	};
 
 
 var gameOver = function(){
 	document.getElementById("headerGame").style.display = "block";
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    document.getElementById("restartBtn").style.display = "block";
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
     
     ctx.drawImage(bgImageMainEnd,0,0,714,726);
     ctx.drawImage(gaov,200,150);
-	
-	var button = document.getElementById("restartBtn");
-	button.style.visibility = "visible"
-	//button.value = "Restart";
-	
-    return; 
 }
+
 
 var restart = function(){
 	window.location.reload()
@@ -867,22 +864,22 @@ var render= function(){
 	switch(status){
 		
 		case "haut":
-		ctx.drawImage(hero.heroImage,0,66,42,66,hero.x, hero.y,42,66);
+		ctx.drawImage(hero.heroImage,42,0,42,66,hero.x, hero.y,42,66);
 					break;
 		case "bas":
 		ctx.drawImage(hero.heroImage,0,0,42,66,hero.x, hero.y,42,66);
 					break;
 		case "gauche":
-		ctx.drawImage(hero.heroImage,0,132,30,66,hero.x, hero.y,42,66);     
+		ctx.drawImage(hero.heroImage,84,0,42,66,hero.x, hero.y,42,66);     
 					break;
 		case "droite":
-		ctx.drawImage(hero.heroImage,0,198,30,66,hero.x, hero.y,41,66);      
+		ctx.drawImage(hero.heroImage,126,0,42,66,hero.x, hero.y,42,66);      
 					break;				
         default:
-		ctx.drawImage(hero.heroImage,0,66,42,66,hero.x, hero.y,42,66);
+		ctx.drawImage(hero.heroImage,42,0,42,66,hero.x, hero.y,42,66);
 		}
 		
-		//ctx.drawImage(hero.heroImage, hero.x, hero.y, hero.width, hero.height);
+
 	}
 
     if(catalogIsReallyReady){
