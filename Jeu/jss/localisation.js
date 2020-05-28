@@ -1,5 +1,5 @@
 /*Geolocation part*/
-//var geoUser = "";
+var geoUser = "";
 
 if (localStorage.getItem("geoUserMemo") === null) {
     localStorage.setItem("geoUserMemo", JSON.stringify(geoUser));

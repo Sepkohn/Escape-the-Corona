@@ -453,6 +453,13 @@ gaov.onload = function () {
 };
 gaov.src = "ressources/images/gaov.png";
 
+// Background image WIN
+var winReady = false;
+var winov = new Image();
+winov.onload = function () {
+	winReady = true;
+};
+winov.src = "ressources/images/win.png";
 
 /***************************************************************************
 						validation du lancement
@@ -806,13 +813,21 @@ var gameOver = function(){
     ctx.drawImage(gaov,200,150);
 }
 
+var gameWin = function(){
+	document.getElementById("headerGame").style.display = "block";
+    document.getElementById("restartBtn").style.display = "block";
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    ctx.drawImage(bgImageMainEnd,0,0,714,726);
+    ctx.drawImage(winov,200,150);
+}
 
 var restart = function(){
 	window.location.reload()
 }
 
 var win = function(){
-	gameOver();
+	gameWin();
 	updateScore(player, scoreMinute, scoreSeconds);
 	return;
 }
