@@ -1,8 +1,8 @@
 /*Geolocation part*/
-var geoUser = "";
+var geoLocUser = "";
 
-if (localStorage.getItem("geoUserMemo") === null) {
-    localStorage.setItem("geoUserMemo", JSON.stringify(geoUser));
+if (localStorage.getItem("geoStorage") === null) {
+    localStorage.setItem("geoStorage", JSON.stringify(geoLocUser));
 }
 
 function getLocation() {
@@ -36,11 +36,7 @@ function showPosition(position) {
             alert('Something went wrong: ' + err);
         } else {
             var thisGeoUser = data["results"]["0"]["locations"]["0"]["adminArea5"] + "-" + data["results"]["0"]["locations"]["0"]["adminArea1"];
-            localStorage.setItem("geoUserMemo", JSON.stringify(thisGeoUser));
+            localStorage.setItem("geoStorage", JSON.stringify(thisGeoUser));
         }
     });
 }
-
-
-
-/*End geolocations part*/

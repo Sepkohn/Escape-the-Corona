@@ -2,12 +2,15 @@
 <html>
 <head id="Title">
     <title>624-2 - HTML/CSS/JavaScript</title>
-    <meta charset="utf-8">
+    
+	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="ressources/css/Game_Style.css">
-	<script src="jss/dragdrop.js"></script>
-	<script src="jss/ranking.js"></script>
-	<script src="jss/localisation.js"></script>
+    
+	<link rel="stylesheet" href="ressources/css/Game_Style.css">
+	
+	<script src="js/dragdrop.js"></script>
+	<script src="js/ranking.js"></script>
+	<script src="js/localisation.js"></script>
 </head>
 
 <body>
@@ -17,65 +20,52 @@
 			<img src="ressources/images/logoW.png"/>
 		</a>
 	</header>
-
+	
 	<main>
-		<!-- Début zone pour votre contenu -->    
-		  
-	<div id="first">
-		<h2>INSTRUCTIONS</h2>
-		<p> Utilisez les flèches de direction afin de déplacer le héros vers le sommet de l'écran.</p>
-		<p>Atteignez l'objectif en respectant les gestes barrières.</p>
-		<p>Agissez aussi vite que possible, mais aussi lentement que nécessaire.</p>
-	
-		</p>
-	
-	</div>
-	
-	<div id="canvas-wrap">
-		
-		<script src="jss/jeu.js"></script>
-				
-		
-		<div id="cadreChoixPersonnage" class="hiddenAfterClick">
-		<h2>Glissez et déposez votre avatar</h2>
-			<form name="start" id="startForm">
+		<div id="first">
+			<h2><u>INSTRUCTIONS</u></h2>
+			<p>Atteignez l'objectif en respectant les gestes barrières.</p>
+			<p>Agissez aussi vite que possible, mais aussi lentement que nécessaire.</p>
+			<p> Utilisez les flèches de direction afin de déplacer le héros vers le sommet de l'écran.</p>
 			
-			<div class="fieldFormStart">
-				<img id="imgPlayer1" class="personnage" draggable="true" ondragstart="drag(event)" src="ressources/Personnages/perso01.png" />
-				<img id="imgPlayer2" class="personnage" draggable="true" ondragstart="drag(event)" src="ressources/Personnages/perso02.png" />
-				<img id="imgPlayer3" class="personnage" draggable="true" ondragstart="drag(event)" src="ressources/Personnages/perso03.png" />
-				<img id="imgPlayer4" class="personnage" draggable="true" ondragstart="drag(event)" src="ressources/Personnages/perso04.png" />
-			</div>
-			<div class="fieldFormStart">
-				<img id="imgPlayer" class="imgPlayer" ondrop="drop(event)" ondragover="allowDrop(event)" src="ressources/Personnages/dropzone.png" />
-			</div>
-			<div class="fieldFormStart">
-				<input id="player" type="text" name="playerName" placeholder="Votre pseudo" />
-			</div>
-			
-			<div class="fieldFormStart">
-				<input id="startBtn" type="button" value="START" onclick="checkBeforeStart()" />
-			</div>
-			</form>
-
-			
+			<img id="move" src="ressources/images/move.png" />
+			<p>Faites ESCAPE pour activer le PANIC BUTTON.</p>
 		</div>
-	</div>
-	
-	<div id="third">
-		<table id ="ranking">
-		</table>
-		<input id="restartBtn" type="button" onclick='window.location.reload(false)' value="RESTART"/>
-	</div>
 		
+		<div id="canvas-wrap">	
+			<script src="js/jeu.js"></script>
+			<div id="cadreChoixPersonnage" class="hiddenAfterClick">
+			<h2>Glissez et déposez votre avatar</h2>
+				<form name="start" id="startForm">
+				<div class="fieldFormStart">
+					<img id="imgPlayer1" class="personnage" draggable="true" ondragstart="drag(event)" src="ressources/Personnages/perso01.png" />
+					<img id="imgPlayer2" class="personnage" draggable="true" ondragstart="drag(event)" src="ressources/Personnages/perso02.png" />
+					<img id="imgPlayer3" class="personnage" draggable="true" ondragstart="drag(event)" src="ressources/Personnages/perso03.png" />
+					<img id="imgPlayer4" class="personnage" draggable="true" ondragstart="drag(event)" src="ressources/Personnages/perso04.png" />
+				</div>
+				<div class="fieldFormStart">
+					<img id="imgPlayer" class="imgPlayer" ondrop="drop(event)" ondragover="allowDrop(event)" src="ressources/Personnages/dropzone.png" />
+				</div>
+				<div class="fieldFormStart">
+					<input id="player" type="text" name="playerName" placeholder="Votre pseudo" />
+				</div>
+				
+				<div class="fieldFormStart">
+					<input id="startBtn" type="button" value="START" onclick="checkBeforeStart()" />
+				</div>
+				</form>
+			</div>
+		</div>
 		
+		<div id="third">
+			<table id ="ranking">
+			</table>
+			<input id="restartBtn" type="button" onclick='window.location.reload(false)' value="RESTART"/>
+		</div>
 	</main>
+	
 </body>
 <footer>
      
-</footer>   
-
-    
+</footer>      
 </html>
-
-
