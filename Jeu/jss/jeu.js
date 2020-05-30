@@ -6,7 +6,7 @@
 
 var gameInProgress = true;
 
-const widthSize=700;
+const widthSize=714;
 // Creer le canvas
 var canvas = document.createElement("canvas");
 var ctx = canvas.getContext("2d");
@@ -25,7 +25,7 @@ winScore = 0;
 //musique
 var ambiance = new Audio("../Jeu/ressources/sound/doom.mp3");
 var dead = new Audio("../Jeu/ressources/sound/argh.wav");
-
+var holy = new Audio("../Jeu/ressources/sound/Holy2.wav");
 //heros
 var hero = {
     x: 0,
@@ -51,6 +51,141 @@ var player = "";
 	geoUser = localStorage.getItem("geoUserMemo");
 	geoUser = geoUser.substring(1, geoUser.length); //Delete first character
 	geoUser = geoUser.slice(0, -1); //Delete last character
+
+
+/***************************************************************************
+					initialisation des niveaux
+***************************************************************************/
+var actualLevel;;
+var maxWidth;
+
+var levels = [];
+
+var image = function(source, width, height){
+	this.source = source;
+	this.height = height;
+	this.width = width;	
+	
+	this.image = null;
+	this.isReady = false;
+}
+
+var loadCatalog = function(thisLevel){
+	var maxWidth = 0;
+	for(let c of thisLevel.catalog){
+		c.image = new Image();
+		c.image.src = c.source;
+
+		c.image.onload = function(){
+			c.isReady = true;
+		};
+		
+	}
+	
+	thisLevel.bgImageMain.onload = function () {
+		thisLevel.bgReady = true;
+	};
+	
+}
+
+var level = function(){
+	
+	this.catalog = [];
+	
+	this.bgReady = false;
+	this.bgImageMain;	
+	this.linWalls;
+	
+}
+
+
+/***************************************************************************
+					initialisation du niveau 1
+***************************************************************************/
+var level1 = new level();
+
+	level1.catalog[0] = new image("ressources/images/feb1D.png",25,66);
+	level1.catalog[1] = new image("ressources/images/feb2D.png",54,66);
+	level1.catalog[2] = new image("ressources/images/feb3D.png",84,66);
+	level1.catalog[3] = new image("ressources/images/fe1D.png",12,66);
+	level1.catalog[4] = new image("ressources/images/fe2D.png",32,66);
+	level1.catalog[5] = new image("ressources/images/fe3D.png",51,66);
+	level1.catalog[6] = new image("ressources/images/fe4D.png",70,66);
+	level1.catalog[7] = new image("ressources/images/ho1D.png",15,66);
+	level1.catalog[8] = new image("ressources/images/ho2D.png",34,66);
+	level1.catalog[9] = new image("ressources/images/ho3D.png",53,66);
+	level1.catalog[10] = new image("ressources/images/ho4D.png",73,66);
+
+
+	level1.bgImageMain = new Image();
+	level1.bgImageMain.src = "ressources/images/SolNiv1.jpg";
+	
+	level1.linWalls = [false, true, false, true,false, false, false, true,true,false];
+
+
+loadCatalog(level1);
+
+	
+
+levels[0] = level1;
+
+
+/***************************************************************************
+					initialisation du niveau 2
+***************************************************************************/
+var level2 = new level();
+
+	level2.catalog[0] =new image("ressources/images/AmbuSmall.png",120,50);
+	level2.catalog[1] =new image("ressources/images/hd1.png",30,46);
+	level2.catalog[2] =new image("ressources/images/hd3.png",92,46);
+	level2.catalog[3] =new image("ressources/images/ambu1D.png",104,66);
+	level2.catalog[4] =new image("ressources/images/ambu2D.png",217,66);
+	level2.catalog[5] =new image("ressources/images/av1D.png",38,56);
+	level2.catalog[6] =new image("ressources/images/av2D.png",83,56);
+	level2.catalog[7] =new image("ressources/images/av3D.png",126,56);
+
+	level2.bgImageMain = new Image();
+	level2.bgImageMain.src = "ressources/images/SolNiv2.jpg";
+	
+	level2.linWalls = [false, false, false, true, false, false, false, false, true, false];
+
+
+loadCatalog(level2);
+
+
+
+levels[1] = level2;
+
+
+/***************************************************************************
+					initialisation du niveau 3
+***************************************************************************/
+var level3 = new level();
+
+
+	level3.catalog[0] =new image("ressources/images/vie1D.png",26,66);
+	level3.catalog[1] =new image("ressources/images/vie2D.png",58,66);
+	level3.catalog[2] =new image("ressources/images/vie3D.png",91,66);
+	level3.catalog[3] =new image("ressources/images/combi3D.png",111,66);
+	level3.catalog[4] =new image("ressources/images/combi2D.png",72,66);
+	level3.catalog[5] =new image("ressources/images/combi1D.png",35,66);
+	level3.catalog[6] =new image("ressources/images/pou1D.png",59,66);
+	level3.catalog[7] =new image("ressources/images/pou2D.png",124,66);
+	level3.catalog[8] =new image("ressources/images/pou3D.png",190,66);
+
+	level3.bgImageMain = new Image();
+	level3.bgImageMain.src = "ressources/images/SolNiv3.jpg";
+	
+	level3.linWalls = [false, false, false, false, false, false, false, false, false, false];
+
+
+loadCatalog(level3);
+
+	
+
+levels[2] = level3;
+
+
 
 
 /***************************************************************************
@@ -89,7 +224,6 @@ var lineOfMonsters = function(y, speed){
 var monster = function(x, y, catalogImage){
 	this.x=x;
 	this.y=y;
-	
 	this.monsterImage = catalogImage.image;
 	this.width=catalogImage.width;
 	this.height=catalogImage.height;
@@ -194,7 +328,7 @@ var finishY=0;
 
 //positions y disponibles
 const h = 66;
-var position = [h,h*2,h*3,h*4,h*5,h*6,h*7,h*8,h*9,h*10];
+var position = [0,h,h*2,h*3,h*4,h*5,h*6,h*7,h*8,h*9,h*10];
 /*
 for(let i=0;i<10;i--){
 	position[i]=h*i
@@ -203,43 +337,10 @@ for(let i=0;i<10;i--){
 				initialisation du catalogue d'image
 ***************************************************************************/
 
-var image = function(source, width, height){
-	this.source = source;
-	this.height = height;
-	this.width = width;	
-	
-	this.image = null;
-	this.isReady = false;
-}
+//images disponibles => défini selon le noiveau
 
-//images disponibles
-var catalog = [];
-catalog[0] =new image("ressources/images/combi3D.png",111,66);
-catalog[1] =new image("ressources/images/combi2D.png",72,66);
-catalog[2] =new image("ressources/images/combi1D.png",35,66);
-catalog[3] =new image("ressources/images/feb3D.png",84,66);
-catalog[4] =new image("ressources/images/feb2D.png",54,66);
-catalog[5] =new image("ressources/images/feb1D.png",25,66);
-catalog[6] =new image("ressources/images/fe3D.png",51,66);
-catalog[7] =new image("ressources/images/ho4D.png",73,66);
-catalog[8] =new image("ressources/images/ho3D.png",53,66);
-catalog[9] =new image("ressources/images/ho2D.png",34,66);
-catalog[10] =new image("ressources/images/ho1D.png",15,66);
-catalog[11] =new image("ressources/images/vie3D.png",91,66);
-catalog[12] =new image("ressources/images/vie2D.png",58,66);
-catalog[13] =new image("ressources/images/vie1D.png",26,66);
-catalog[14] =new image("ressources/images/pou3D.png",190,66);
-catalog[15] =new image("ressources/images/pou2D.png",124,66);
-catalog[16] =new image("ressources/images/pou1D.png",59,66);
+var catalog;
 
-for(let c of catalog){
-	c.image = new Image();
-	c.image.src = c.source;
-	
-	c.image.onload = function(){
-		c.isReady = true;
-	};
-}
 
 /***************************************************************************
 				initialisation du catalogue d'image Murs
@@ -247,7 +348,16 @@ for(let c of catalog){
 
 
 //images disponibles
-var catalogWalls = [new image("ressources/images/150.png",150,66)];
+var catalogWalls = []
+catalogWalls[0]= new image("ressources/images/42.png",42,66);
+catalogWalls[1]= new image("ressources/images/84.png",84,66);
+catalogWalls[2]= new image("ressources/images/126.png",126,66);
+catalogWalls[3]= new image("ressources/images/baR01.png",126,66);
+catalogWalls[4]= new image("ressources/images/baJ01.png",126,65);
+catalogWalls[5]= new image("ressources/images/polF.png",84,59);
+catalogWalls[6]= new image("ressources/images/polC.png",126,47);
+
+
 for(let c of catalogWalls){
 	c.image = new Image();
 	c.image.src = c.source;
@@ -257,7 +367,7 @@ for(let c of catalogWalls){
 	};
 }
 
-
+var status;
 /***************************************************************************
 				initialisation du catalogue d'image
 ***************************************************************************/
@@ -268,11 +378,11 @@ addEventListener("keyup",function (e){
     let direction = e.keyCode;
    
     if(direction==38 && hero.y > 0){ // monter
-			 console.log(hero.y);
 		hero.y -=66;
 		if(!checkStopWall()){
 			hero.y +=66;
 		}
+		status="haut";
     }
     
     if(direction==40 && hero.y < 626){  // descendre
@@ -280,22 +390,24 @@ addEventListener("keyup",function (e){
 		if(!checkStopWall()){
 			 hero.y -=66; 
 		}
+		status="bas";
     }
     
     if(direction==37 && hero.x > 0){ // Player holding left
-         
 		hero.x -=42;
 		if(!checkStopWall()){
 			 hero.x +=42; 
 		}
+		status="gauche";
     }
     
-    if(direction==39 && hero.x < 640){ // Player holding right
+    if(direction==39 && hero.x < 633){ // Player holding right
         
 		hero.x +=42; 
 		if(!checkStopWall()){
 			 hero.x -=42; 
 		}
+		status="droite";
     }
 	
 	
@@ -322,15 +434,8 @@ addEventListener("keydown", function (e) {
 					initialisation des backgrounds
 ***************************************************************************/
 
-// Background image START
-var bgReady = false;
-var bgImageMain = new Image();
-bgImageMain.onload = function () {
-	bgReady = true;
-};
-bgImageMain.src = "ressources/images/TextureSolB2.jpg";
+var bgImageMain;
 
-	
 // Background image GAME OVER
 var bgReadyEnd = false;
 var bgImageMainEnd = new Image();
@@ -348,12 +453,26 @@ gaov.onload = function () {
 };
 gaov.src = "ressources/images/gaov.png";
 
+// Background image WIN
+var winReady = false;
+var winov = new Image();
+winov.onload = function () {
+	winReady = true;
+};
+winov.src = "ressources/images/win.png";
 
 /***************************************************************************
 						validation du lancement
 ***************************************************************************/
 
 var checkBeforeStart = function () {
+	//creation du palmares si besoin
+	if (localStorage.getItem("palmares") === null) {
+        localStorage.setItem("palmares", JSON.stringify(palmares));
+    }
+	
+	displayRanking();
+	
     player = document.getElementById("player").value;
    
     var droptest = document.getElementById("imgPlayer").src;
@@ -363,6 +482,7 @@ var checkBeforeStart = function () {
         alert("Veuillez entrer un pseudo et choisir un joueur");
     }else{
         launchGame();
+		document.getElementById("startBtn").style.visibility ="hidden";
     }
 }
 
@@ -377,25 +497,22 @@ var launchGame = function () {
 	const url = "ressources/Personnages/";
 	switch(DropHero){
             case("imgPlayer1"):
-               	hero.heroImage.src=url + "hero01.png";
+               	hero.heroImage.src=url + "sprite1.png";
                 break;
             case("imgPlayer2"):
-                hero.heroImage.src=url + "hero02.png";
+                hero.heroImage.src=url + "sprite2.png";
                 break;
             case("imgPlayer3"):
-                hero.heroImage.src=url + "hero03.png";
+                hero.heroImage.src=url + "sprite3.png";
                 break;
             case("imgPlayer4"):
-                hero.heroImage.src=url + "hero04.png";
+                hero.heroImage.src=url + "sprite4.png";
                 break;
 			
     }
     //ambiance.play();
 	
-	//creation du palmares si besoin
-	if (localStorage.getItem("palmares") === null) {
-        localStorage.setItem("palmares", JSON.stringify(palmares));
-    }
+	
 }
 
 /***************************************************************************
@@ -407,9 +524,9 @@ var myRandom = function(newLineOfMonsters, myCatlog){
 	var x;
 	while(!position){
 		position = true;
-		x = (Math.random()*500) + 112;
+		x = (Math.random()*(500+maxWidth)) - maxWidth ;
 		for(let monster of newLineOfMonsters.monsters){
-			if(x< monster.x+monster.width && x + myCatlog.width > monster.x){
+			if(x< monster.x+maxWidth && x + maxWidth> monster.x){
 				position=false;
 			}
 		}
@@ -422,72 +539,106 @@ function getRandomInt(max) {
 }
 
 var init = function(){
-	 //reset du timer
-    minute=initialMinute;
-    seconds =initialSeconds;
-    setTimer = setInterval(runningTimer, 1000);
-      
-    //Position de depart du hero
-	hero.x = (widthSize/2)-(42/2);
-    hero.y = 660;
 	
-	//position d'arrivée
-	arriveeX = 350;
-	arriveeY = 0;
-
-
-	theHorde.linesOfMonsters.splice(0, theHorde.linesOfMonsters.length);
-	
-	theWalls.linesOfWalls.splice(0, theWalls.linesOfWalls.length);
-
-	var linWalls = [false, true, false, true,false, false, false, true,true,false];
-	
-	var myRandomWalls = function(){
-		var x = getRandomInt(700);
-		
-		while(!((x%42)==0)){
-			console.log(x);
-			x = getRandomInt(700);
-		}
-		return x;
+	//reset des monstres
+	for(var line of theHorde.linesOfMonsters){
+		line.monsters.splice(0,line.monsters.length);
 	}
 	
+	theHorde.linesOfMonsters.splice(0, theHorde.linesOfMonsters.length);
+
+	//reset des murs
+	for(var line of theWalls.linesOfWalls){
+		line.walls.splice(0,line.walls.length);
+	}
 	
-   for(var i=0;i<9;i++){
-	   // var linWalls = [true, true, false, true false...]
-	   //if lineWalls = false do ...
-        
-		if(linWalls[i]===false){	
-			let newLineOfMonsters = new lineOfMonsters(position[i], 1);
-			
-			//let myCatlog = catalog[Math.random()*(catalog.length)];
-			let myCatlog = catalog[getRandomInt(8)];
+	theWalls.linesOfWalls.splice(0, theWalls.linesOfWalls.length);
+	
+	if(winScore!=3){
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+		actualLevel = levels[winScore];
 		
-			let newMonster = new monster(myRandomWalls(), newLineOfMonsters.y, myCatlog);
-			newLineOfMonsters.addMonster(newMonster);
-			
-			let newMonster2 = new monster(myRandomWalls(), newLineOfMonsters.y, myCatlog);
-			newLineOfMonsters.addMonster(newMonster2);
-			
-			theHorde.addLine(newLineOfMonsters);
-			
-		}else{
-			let newLineOfWalls = new linesOfWalls(position[i], 1);
-			
-			//let myCatlog = catalog[Math.random()*(catalog.length)];
-			let myCatlog = catalogWalls[0];
-			
-			let newWall = new wall(Math.floor(Math.random()*600), newLineOfWalls.y, myCatlog);
-			newLineOfWalls.addWalls(newWall);
-			
-			let newWall2 = new wall(Math.floor(Math.random()*600), newLineOfWalls.y, myCatlog);
-			newLineOfWalls.addWalls(newWall2);
-			
-			
-			theWalls.addLine(newLineOfWalls);
+		maxWidth = 0;
+		
+		for(var c of actualLevel.catalog){
+			if(c.image.width>maxWidth){
+				maxWidth=c.image.width;
+			}
 		}
-		
-    } 
+
+		catalog = actualLevel.catalog;
+
+		bgImageMain = actualLevel.bgImageMain;
+
+
+		//reset du timer
+		minute=initialMinute;
+		seconds =initialSeconds;
+		setTimer = setInterval(runningTimer, 1000);
+
+		//Position de depart du hero
+		hero.x = (widthSize/2)-(42/2);
+		hero.y = 660;
+
+		//position d'arrivée
+		arriveeX = 350;
+		arriveeY = 0;
+
+
+		theHorde.linesOfMonsters.splice(0, theHorde.linesOfMonsters.length);
+
+		theWalls.linesOfWalls.splice(0, theWalls.linesOfWalls.length);
+
+		var linWalls = actualLevel.linWalls;
+
+		var myRandomWalls = function(){
+			var x = getRandomInt(700);
+
+			while(!((x%42)==0)){
+				x = getRandomInt(700);
+			}
+			return x;
+		}
+
+
+	   for(var i=0;i<10;i++){
+		   // var linWalls = [true, true, false, true false...]
+		   //if lineWalls = false do ...
+
+			if(linWalls[i]===false){	
+				let newLineOfMonsters = new lineOfMonsters(position[i], 1);
+
+				//let myCatlog = catalog[Math.random()*(catalog.length)];
+				let myCatlog = catalog[getRandomInt(catalog.length)];
+
+				let newMonster = new monster(myRandom(newLineOfMonsters, myCatlog), newLineOfMonsters.y, myCatlog);
+				newLineOfMonsters.addMonster(newMonster);
+
+				let newMonster2 = new monster(myRandom(newLineOfMonsters, myCatlog), newLineOfMonsters.y, myCatlog);
+				newLineOfMonsters.addMonster(newMonster2);
+				
+				theHorde.addLine(newLineOfMonsters);
+
+			}else{
+				let newLineOfWalls = new linesOfWalls(position[i], 1);
+
+				//let myCatlog = catalog[Math.random()*(catalog.length)];
+				let myCatlog = catalogWalls[getRandomInt(4)];
+
+				let newWall = new wall(myRandomWalls(), newLineOfWalls.y, myCatlog);
+				console.log(newWall.x);
+				newLineOfWalls.addWalls(newWall);
+
+				let newWall2 = new wall(myRandomWalls(), newLineOfWalls.y, myCatlog);
+				newLineOfWalls.addWalls(newWall2);
+
+
+				theWalls.addLine(newLineOfWalls);
+			}
+
+		} 
+	}
 	
 	
 	myReq = requestAnimationFrame(main);
@@ -539,7 +690,6 @@ resolve = function(){
         return false;
     }
 	if(winScore===3){
-		winScore++;
 		endGame(0);
 		return false;
 		}
@@ -593,7 +743,7 @@ var checkColision = function(){
 				dead.play();
 				resolveCondition = false;
 				monstersCaught--;
-				clearInterval(setTimer);
+				stopTimer;
 				init();
 				return;
 			}
@@ -602,10 +752,11 @@ var checkColision = function(){
 
 for(let lineNew of theHorde.linesOfMonsters){
         for(let i = 0; i< lineNew.monsters.length; i++){
-			if(lineNew.monsters[i].x>650){
+			if(lineNew.monsters[i].x>714){
 				lineNew.monsters.splice(i,1);
-				
-				let newMonster = new monster(0, lineNew.y, catalog[getRandomInt(8)]);
+				//faire une condition qui reprend la position du dernier monstre de la ligne en cours, si delta + grand que x position, créer nouveau monstre
+				console.log("max width : " + maxWidth);
+				let newMonster = new monster(0-maxWidth, lineNew.y, catalog[getRandomInt(catalog.length)]);
 				lineNew.addMonster(newMonster);
 			}
             
@@ -634,6 +785,7 @@ var checkFinishLine = function(){
 		
     if (passFinishLine(hero)){
         stopTimer();
+		
 		winScore++;
 		resolveCondition = false;
 		init();
@@ -647,21 +799,35 @@ var passFinishLine = function(hero){
 		if(arriveeX >= hero.x + hero.width || arriveeX + hero.width <= hero.x || arriveeY <= hero.y - hero.height  || arriveeY - hero.height >= hero.y){
 			return false;
 		}
+		holy.play();
 		return true;
 	};
 
 
 var gameOver = function(){
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+	document.getElementById("headerGame").style.display = "block";
+    document.getElementById("restartBtn").style.display = "block";
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    ctx.drawImage(bgImageMainEnd,0,0);
+    ctx.drawImage(bgImageMainEnd,0,0,714,726);
     ctx.drawImage(gaov,200,150);
-	
-    return; 
+}
+
+var gameWin = function(){
+	document.getElementById("headerGame").style.display = "block";
+    document.getElementById("restartBtn").style.display = "block";
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    ctx.drawImage(bgImageMainEnd,0,0,714,726);
+    ctx.drawImage(winov,200,150);
+}
+
+var restart = function(){
+	window.location.reload()
 }
 
 var win = function(){
-	gameOver();
+	gameWin();
 	updateScore(player, scoreMinute, scoreSeconds);
 	return;
 }
@@ -680,10 +846,20 @@ var endGame = function(i){
 							Rendu
 ***************************************************************************/
 var catalogIsReallyReady = function(){
-	let ready = false;
+	let ready = true;
 	for(let i=0;i<=catalog.length;i++){
-		if(catalog[i].isReady){
-			ready=true;
+		if(!catalog[i].isReady){
+			ready=false;
+		}
+	}
+	return ready;
+}
+
+var catalogWallsIsReallyReady = function(){
+	let ready = true;
+	for(let i=0;i<=catalogWalls.length;i++){
+		if(!catalogWalls[i].isReady){
+			ready=false;
 		}
 	}
 	return ready;
@@ -691,13 +867,34 @@ var catalogIsReallyReady = function(){
 
 var render= function(){
 	
-	if (bgReady) {
+	if (levels[winScore].bgReady) {
     //Image de fond
-        ctx.drawImage(bgImageMain,0,0);        
+
+		ctx.drawImage(levels[winScore].bgImageMain,0,0);    
+	
 	}
 
 	if (hero.heroReady) {
-		ctx.drawImage(hero.heroImage, hero.x, hero.y);
+		    
+	switch(status){
+		
+		case "haut":
+		ctx.drawImage(hero.heroImage,42,0,42,66,hero.x, hero.y,42,66);
+					break;
+		case "bas":
+		ctx.drawImage(hero.heroImage,0,0,42,66,hero.x, hero.y,42,66);
+					break;
+		case "gauche":
+		ctx.drawImage(hero.heroImage,84,0,42,66,hero.x, hero.y,42,66);     
+					break;
+		case "droite":
+		ctx.drawImage(hero.heroImage,126,0,42,66,hero.x, hero.y,42,66);      
+					break;				
+        default:
+		ctx.drawImage(hero.heroImage,42,0,42,66,hero.x, hero.y,42,66);
+		}
+		
+
 	}
 
     if(catalogIsReallyReady){
@@ -707,29 +904,23 @@ var render= function(){
 			for (let j = 0; j<actualLineOfMonsters.monsters.length; j++){
 				let actualMonster = actualLineOfMonsters.monsters[j];
 				
-				ctx.drawImage(actualMonster.monsterImage, actualMonster.x, actualLineOfMonsters.y);
+				ctx.drawImage(actualMonster.monsterImage, actualMonster.x, actualLineOfMonsters.y,actualMonster.width,actualMonster.height);
 				
 			}      
 		}  
 	}
 	
-	if(catalogWalls[0].isReady){
+	if(catalogWallsIsReallyReady){
 		for (let i = 0; i<theWalls.linesOfWalls.length; i++){
 			var actualLineOfWalls = theWalls.linesOfWalls[i];
 			
 			for (let j = 0; j<actualLineOfWalls.walls.length; j++){
 				let actualWall = actualLineOfWalls.walls[j];
-				ctx.drawImage(actualWall.wallImage, actualWall.x, actualLineOfWalls.y);
+				ctx.drawImage(actualWall.wallImage, actualWall.x, actualLineOfWalls.y,actualWall.width,actualWall.height);
 				
 			}      
 		}  
 	}
-	
-	
-	
-	
-	
-    
 
 	// Score
 	ctx.fillStyle = "rgb(250, 250, 250)";
