@@ -1,3 +1,4 @@
+
 var updateScore = function(player, scoreMinute, scoreSeconds){
 	console.log("i update the palmares");
 	
@@ -24,6 +25,7 @@ var updateScore = function(player, scoreMinute, scoreSeconds){
 }
 
 var displayRanking = function(){
+	//window.localStorage.clear();
 	var ranking = document.getElementById("ranking");
 	ranking.innerHTML="<tr><th> Place</th><th>Nom</th><th>Temps</th></tr>";
 	var palmares = JSON.parse(localStorage.getItem("palmares"));
@@ -40,3 +42,4 @@ var displayRanking = function(){
     });
 	
 }
+window.onload = displayRanking;
