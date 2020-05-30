@@ -1,9 +1,9 @@
 
 html {
+	font-family: Lucida Console, sans-serif , "Montserrat";
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family : 'Montserrat';
 }
 
 html, body {
@@ -197,5 +197,5 @@ caption {
     transition: all 0.1s;
     box-shadow: 0px 5px 0px #84261a;
 	border-radius:70px;
-	font-size: 17px;
+	font-size: 15px;
 }

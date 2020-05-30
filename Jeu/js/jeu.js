@@ -3,6 +3,7 @@
 ***************************************************************************/
 
 var gameInProgress = true;
+var finish = null;
 const widthSize=714;
 
 // Create canvas
@@ -39,6 +40,7 @@ var hero = {
 	hero.heroReady = true;
 }
 
+var player = "";
 
 //geolocalisation du joueur
 var geoLocUser = "";
@@ -365,7 +367,7 @@ addEventListener("keyup",function (e){
 		if(!checkStopWall()){
 			hero.y +=66;
 		}
-		status="haut";
+		status="top";
     }
     
     if(direction==40 && hero.y < 626){  // descendre
@@ -373,7 +375,7 @@ addEventListener("keyup",function (e){
 		if(!checkStopWall()){
 			 hero.y -=66; 
 		}
-		status="bas";
+		status="down";
     }
     
     if(direction==37 && hero.x > 0){ // Player holding left
@@ -381,7 +383,7 @@ addEventListener("keyup",function (e){
 		if(!checkStopWall()){
 			 hero.x +=42; 
 		}
-		status="gauche";
+		status="left";
     }
     
     if(direction==39 && hero.x < 633){ // Player holding right
@@ -390,11 +392,11 @@ addEventListener("keyup",function (e){
 		if(!checkStopWall()){
 			 hero.x -=42; 
 		}
-		status="droite";
+		status="right";
     }
 	  if(direction==27){ 
         upRestart(); //to display restart button
-		status="haut";
+		status="top";
     }
 
 },false);
@@ -428,7 +430,7 @@ var gaov = new Image();
 gaov.onload = function () {
 	gaovReady = true;
 };
-gaov.src = "ressources/images/gaov.png";
+gaov.src = "ressources/images/TextureSolGov.jpg";
 
 // Background image WIN texte
 var winReady = false;
@@ -448,9 +450,7 @@ var checkBeforeStart = function () {
         localStorage.setItem("palmares", JSON.stringify(palmares));
     }
 	
-	displayRanking();
-	
-    var player = document.getElementById("player").value;
+    player = document.getElementById("player").value;
    
     var droptest = document.getElementById("imgPlayer").src;
    
@@ -632,7 +632,13 @@ var main = function(){
 		myReq = w.cancelAnimationFrame(main);
 		
 		if(!gameInProgress){
-			gameOver();
+			if(finish=="gaov"){
+				gameOver();
+			}
+			if(finish=="winov"){
+				gameWin();
+			}
+			
 		}
 		return;
 	}
@@ -650,11 +656,14 @@ resolve = function(){
 	
 	//tests si gagné ou perdu
 	if(lifes===0){
-        endGame(1);
+        endGame();
+		finish  ="gaov";
         return false;
     }
 	if(winScore===3){
-		endGame(0);
+		win();
+		endGame();
+		finish ="winov";
 		return false;
 	}
 
@@ -772,8 +781,7 @@ var gameOver = function(){
     document.getElementById("restartBtn").style.display = "block";
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    ctx.drawImage(bgImageMainEnd,0,0,714,726);
-    ctx.drawImage(gaov,200,150);
+    ctx.drawImage(gaov,0,0,714,726);
 }
 
 var gameWin = function(){
@@ -782,7 +790,7 @@ var gameWin = function(){
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
     
     ctx.drawImage(bgImageMainEnd,0,0,714,726);
-    ctx.drawImage(winov,150,150);
+    ctx.drawImage(winov,150,150,400,320);
 }
 
 var restart = function(){
@@ -792,14 +800,11 @@ var restart = function(){
 var win = function(){
 	gameWin();
 	updateScore(player, scoreMinute, scoreSeconds);
+	displayRanking();
 	return;
 }
 
-var endGame = function(i){
-	if(i===0){
-		win();
-	}
-	displayRanking();
+var endGame = function(){
 	clearInterval(setTimer);
 	gameInProgress = false;
 	return;
