@@ -1,9 +1,9 @@
 
 html {
+	font-family: Lucida Console, sans-serif , "Montserrat";
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family : 'Montserrat';
 }
 
 html, body {
@@ -12,28 +12,25 @@ html, body {
     background-color: #464646;
 }
 
-
-
-
 header{
 	height: 70px;
     background-color: #454545;
     text-align: center;
-    
 }
+
 header img{
    width:258px;
    height:65px;
 }
 
-
 main{
 	display:flex;
 }
 
-p {
+p{
     margin: 0 0 40px;
     line-height: 28px;
+	font-size:20px;
 }
 
 #first {
@@ -42,10 +39,17 @@ p {
     color: white;
     position: relative;
     padding: 25px 30px 0px;
-	margin-top:25px;
 }
-
-#first 
+#first h2{
+	margin-top:0px;
+}
+#move{
+	width:180px;
+	height:180px;
+	position:relative;
+	margin-left:auto;
+	margin-right:auto;
+}
 
 #second{
 	background-repeat:no-repeat;
@@ -54,8 +58,6 @@ p {
 #canvas-wrap{
 	position:relative;
 }
-
-
 
 #canvas-wrap h2{
 	top:50px;
@@ -67,9 +69,8 @@ p {
 #cadreChoixPersonnage{
 	width:714px;
 	height:726px;
-	background-color:black;
+	background-color:#333;
 	position: relative;
-	
 }
 
 #third {
@@ -86,13 +87,10 @@ p {
 }
 
 table {
-	/*border-collapse: collapse;*/
-	width: 100%%;
+	width: 100%;
 }
 
 th {
-	font-family: monospace;
-	/*border: thin solid red;*/
 	width: 50%;
 	padding: 5px;
 }
@@ -103,7 +101,6 @@ td {
 	width: 50%;
 	padding: 5px;
 	text-align: center;
-	background-color: none;
 }
 
 #ranking tbody:nth-child(1) {
@@ -111,26 +108,24 @@ td {
 }
 
 #ranking tbody:nth-child(odd){ 
-		background: #5C5453;
-	}
+	background: #5C5453;
+}
 
 #ranking tbody:nth-child(even){
-		background: #524952;
-	}
+	background: #524952;
+}
 
-
-tr :first-child {
+tr:first-child {
 	width: 20%;
 }
 
-tr :nth-child(3) {
+tr:nth-child(3) {
 	width: 40%;
 }
 
 caption {
 	font-family: sans-serif;
 }
-
 
 #startForm{
 	position:absolute;
@@ -139,15 +134,9 @@ caption {
 	flex-direction: column;
 }
 
-
-#startForm input{
-
-}
-
 .hiddenAfterClick{
 	position:absolute;
 	margin-top:-805px;
-	
 }
 
 #imgPlayer{
@@ -178,7 +167,6 @@ caption {
 	background-color:grey;
 	border-radius:5px;
 	text-align:center;
-	
 }
 
 #startBtn{
@@ -190,11 +178,7 @@ caption {
 	position: relative;
 	margin-top:20px;
 	color:white;
-	-webkit-transition: all 0.1s;
-    -moz-transition: all 0.1s;
     transition: all 0.1s;
-    -webkit-box-shadow: 0px 5px 0px #84261a;
-    -moz-box-shadow: 0px 5px 0px #84261a;
     box-shadow: 0px 5px 0px #84261a;
 	border-radius:70px;
 	font-size: 17px;
@@ -210,12 +194,8 @@ caption {
 	display:none;
 	margin-top:20px;
 	color:white;
-	-webkit-transition: all 0.1s;
-    -moz-transition: all 0.1s;
     transition: all 0.1s;
-    -webkit-box-shadow: 0px 5px 0px #84261a;
-    -moz-box-shadow: 0px 5px 0px #84261a;
     box-shadow: 0px 5px 0px #84261a;
 	border-radius:70px;
-	font-size: 17px;
+	font-size: 15px;
 }

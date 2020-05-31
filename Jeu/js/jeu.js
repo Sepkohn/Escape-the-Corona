@@ -2,12 +2,11 @@
 						Declaration des variables
 ***************************************************************************/
 
-//jeu en cours
-
 var gameInProgress = true;
-
+var finish = null;
 const widthSize=714;
-// Creer le canvas
+
+// Create canvas
 var canvas = document.createElement("canvas");
 var ctx = canvas.getContext("2d");
 canvas.width = widthSize;
@@ -18,39 +17,38 @@ var palmares = [];
 document.getElementById("canvas-wrap").appendChild(canvas);
 
 
-//données du jeu
-monstersCaught =3;
+//Display text info game
+lifes =3;
 winScore = 0;
 
-//musique
+//Sound
 var ambiance = new Audio("../Jeu/ressources/sound/doom.mp3");
 var dead = new Audio("../Jeu/ressources/sound/argh.wav");
 var holy = new Audio("../Jeu/ressources/sound/Holy2.wav");
-//heros
+
+
+//Object Hero
 var hero = {
     x: 0,
 	y: 0,
-	speed: 256, // movement in pixels per second
 	width:42,
 	height:66,
 	heroReady : false,
 	heroImage : new Image()
 };
-hero.heroImage.onload = function(){
+	hero.heroImage.onload = function(){
 	hero.heroReady = true;
 }
 
-//joueur
 var player = "";
 
-
 //geolocalisation du joueur
-	var geoUser = "";
-	getLocation();
-	
-	geoUser = localStorage.getItem("geoUserMemo");
-	geoUser = geoUser.substring(1, geoUser.length); //Delete first character
-	geoUser = geoUser.slice(0, -1); //Delete last character
+var geoLocUser = "";
+getLocation();
+
+geoLocUser = localStorage.getItem("geoStorage");
+geoLocUser = geoLocUser.substring(1, geoLocUser.length); //Delete first character
+geoLocUser = geoLocUser.slice(0, -1); //Delete last character
 
 
 /***************************************************************************
@@ -58,28 +56,25 @@ var player = "";
 ***************************************************************************/
 var actualLevel;;
 var maxWidth;
-
 var levels = [];
 
 var image = function(source, width, height){
 	this.source = source;
 	this.height = height;
 	this.width = width;	
-	
 	this.image = null;
 	this.isReady = false;
 }
 
 var loadCatalog = function(thisLevel){
 	var maxWidth = 0;
+	
 	for(let c of thisLevel.catalog){
 		c.image = new Image();
 		c.image.src = c.source;
-
 		c.image.onload = function(){
 			c.isReady = true;
 		};
-		
 	}
 	
 	thisLevel.bgImageMain.onload = function () {
@@ -89,13 +84,10 @@ var loadCatalog = function(thisLevel){
 }
 
 var level = function(){
-	
 	this.catalog = [];
-	
 	this.bgReady = false;
 	this.bgImageMain;	
 	this.linWalls;
-	
 }
 
 
@@ -202,7 +194,7 @@ var theHorde = {
 	}
 };
 
-//ligne de monstres
+//line of monsters
 var lineOfMonsters = function(y, speed){
 	this.y = y; //position verticale de la ligne
 	this.active = true; //définit si les monstres sont actifs sur cette ligne
@@ -220,7 +212,7 @@ var lineOfMonsters = function(y, speed){
 	}
 };
 
-//monstre
+//monster object
 var monster = function(x, y, catalogImage){
 	this.x=x;
 	this.y=y;
@@ -239,8 +231,7 @@ var monster = function(x, y, catalogImage){
 					initialisation des murs
 ***************************************************************************/
 
-//Ensemble des lignes de monstres
-
+//All lines of monsters
 var theWalls = {
 	linesOfWalls : [], //tableau de lineOfMonsters
 	
@@ -249,19 +240,18 @@ var theWalls = {
 	}
 };
 
-//ligne de murs
-var linesOfWalls = function(y, speed){
+//line of walls constructor
+var linesOfWalls = function(y){
 	this.y = y; //position verticale de la ligne
 	this.active = true; //définit si les monstres sont actifs sur cette ligne
 	this.walls = [];
-	this.speed=speed;
 	
 	this.addWalls = function(m){
 		this.walls.push(m);
 	}
 };
 
-//mur
+//wall constructor
 var wall = function(x, y, catalogImage){
 	this.x=x;
 	this.y=y;
@@ -275,20 +265,20 @@ var wall = function(x, y, catalogImage){
 					initialisation des timer
 ***************************************************************************/
 
-//timer initial (a modifier si besoin)
+//timer init
 var initialMinute = 1;
 var initialSeconds = 0;
 
-//timer pendant le jeu
+//timer in game
 var minute = 0;
 var seconds = 0;
 setTimer = null;
 
-//timer de score
+//timer ranking
 var scoreMinute = 0;
 var scoreSeconds = 0;
 
-//lancement du Timer
+//timer start
 var runningTimer = function(){
 	seconds--;
 	if(seconds==-1){
@@ -297,7 +287,7 @@ var runningTimer = function(){
 	}
 }
 
-//arret du Timer + score
+//stop timer + score
 var stopTimer = function(){
 	
 	var finalMinute = this.minute;
@@ -322,23 +312,19 @@ var stopTimer = function(){
 /***************************************************************************
 				initialisation des points principaux
 ***************************************************************************/
-//position d'arrivee;
+//init final entry ;
 var finishX=0;
 var finishY=0;
 
 //positions y disponibles
 const h = 66;
 var position = [0,h,h*2,h*3,h*4,h*5,h*6,h*7,h*8,h*9,h*10];
-/*
-for(let i=0;i<10;i--){
-	position[i]=h*i
-}*/
+
 /***************************************************************************
 				initialisation du catalogue d'image
 ***************************************************************************/
 
-//images disponibles => défini selon le noiveau
-
+//available pictures => depends of level
 var catalog;
 
 
@@ -347,7 +333,7 @@ var catalog;
 ***************************************************************************/
 
 
-//images disponibles
+//pictures url of walls
 var catalogWalls = []
 catalogWalls[0]= new image("ressources/images/42.png",42,66);
 catalogWalls[1]= new image("ressources/images/84.png",84,66);
@@ -357,7 +343,7 @@ catalogWalls[4]= new image("ressources/images/baJ01.png",126,65);
 catalogWalls[5]= new image("ressources/images/polF.png",84,59);
 catalogWalls[6]= new image("ressources/images/polC.png",126,47);
 
-
+//loop to create each of catalogue walls
 for(let c of catalogWalls){
 	c.image = new Image();
 	c.image.src = c.source;
@@ -368,21 +354,20 @@ for(let c of catalogWalls){
 }
 
 var status;
+
 /***************************************************************************
 				initialisation du catalogue d'image
 ***************************************************************************/
 addEventListener("keyup",function (e){
                  
-   // onkeyup = true;
-    
-    let direction = e.keyCode;
+	var direction = e.keyCode;
    
     if(direction==38 && hero.y > 0){ // monter
 		hero.y -=66;
 		if(!checkStopWall()){
 			hero.y +=66;
 		}
-		status="haut";
+		status="top";
     }
     
     if(direction==40 && hero.y < 626){  // descendre
@@ -390,7 +375,7 @@ addEventListener("keyup",function (e){
 		if(!checkStopWall()){
 			 hero.y -=66; 
 		}
-		status="bas";
+		status="down";
     }
     
     if(direction==37 && hero.x > 0){ // Player holding left
@@ -398,7 +383,7 @@ addEventListener("keyup",function (e){
 		if(!checkStopWall()){
 			 hero.x +=42; 
 		}
-		status="gauche";
+		status="left";
     }
     
     if(direction==39 && hero.x < 633){ // Player holding right
@@ -407,22 +392,16 @@ addEventListener("keyup",function (e){
 		if(!checkStopWall()){
 			 hero.x -=42; 
 		}
-		status="droite";
+		status="right";
     }
-	
-	
-	/****************************************
-		Evennement bloquant walls
-	
-	*****************************************/
-	
-	
-	
-	
+	  if(direction==27){ 
+        upRestart(); //to display restart button
+		status="top";
+    }
+
 },false);
 
-    //effet lors du relachement de la touche
-    //a supprimer
+
 
 addEventListener("keydown", function (e) {
 	onkeydown = true;
@@ -445,15 +424,15 @@ bgImageMainEnd.onload = function () {
 bgImageMainEnd.src = "ressources/images/TextureSolBEnd.jpg";
 
 
-// Background image GAME OVER 2
+// Background image GAME OVER texte
 var gaovReady = false;
 var gaov = new Image();
 gaov.onload = function () {
 	gaovReady = true;
 };
-gaov.src = "ressources/images/gaov.png";
+gaov.src = "ressources/images/TextureSolGov.jpg";
 
-// Background image WIN
+// Background image WIN texte
 var winReady = false;
 var winov = new Image();
 winov.onload = function () {
@@ -471,15 +450,13 @@ var checkBeforeStart = function () {
         localStorage.setItem("palmares", JSON.stringify(palmares));
     }
 	
-	displayRanking();
-	
     player = document.getElementById("player").value;
    
     var droptest = document.getElementById("imgPlayer").src;
    
     console.log(player);
     if(player =="" || droptest.includes("ressources/Personnages/dropzone.png")){
-        alert("Veuillez entrer un pseudo et choisir un joueur");
+        alert("Veuillez entrer un pseudo et choisir un joueur.");
     }else{
         launchGame();
 		document.getElementById("startBtn").style.visibility ="hidden";
@@ -508,11 +485,8 @@ var launchGame = function () {
             case("imgPlayer4"):
                 hero.heroImage.src=url + "sprite4.png";
                 break;
-			
     }
     //ambiance.play();
-	
-	
 }
 
 /***************************************************************************
@@ -524,7 +498,7 @@ var myRandom = function(newLineOfMonsters, myCatlog){
 	var x;
 	while(!position){
 		position = true;
-		x = (Math.random()*(600)) - maxWidth ;
+		x = (Math.random()*(600+maxWidth)) - maxWidth ;
 		
 		for(let monster of newLineOfMonsters.monsters){
 			if(x< monster.x+maxWidth && x + maxWidth> monster.x){
@@ -535,6 +509,7 @@ var myRandom = function(newLineOfMonsters, myCatlog){
 	return x;
 }
 
+//Function to simplify a random with parameter
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
@@ -548,7 +523,7 @@ var init = function(){
 	
 	theHorde.linesOfMonsters.splice(0, theHorde.linesOfMonsters.length);
 
-	//reset des murs
+	//reset walls
 	for(var line of theWalls.linesOfWalls){
 		line.walls.splice(0,line.walls.length);
 	}
@@ -578,11 +553,11 @@ var init = function(){
 		seconds =initialSeconds;
 		setTimer = setInterval(runningTimer, 1000);
 
-		//Position de depart du hero
+		//Start hero position
 		hero.x = (widthSize/2)-(42/2);
 		hero.y = 660;
 
-		//position d'arrivée
+		//Finish hero position
 		arriveeX = 350;
 		arriveeY = 0;
 
@@ -604,9 +579,6 @@ var init = function(){
 
 
 	   for(var i=0;i<10;i++){
-		   // var linWalls = [true, true, false, true false...]
-		   //if lineWalls = false do ...
-
 			if(linWalls[i]===false){	
 				let newLineOfMonsters = new lineOfMonsters(position[i], 1);
 
@@ -622,35 +594,29 @@ var init = function(){
 				theHorde.addLine(newLineOfMonsters);
 
 			}else{
-				let newLineOfWalls = new linesOfWalls(position[i], 1);
-
-				//let myCatlog = catalog[Math.random()*(catalog.length)];
-				let myCatlog = catalogWalls[getRandomInt(4)];
-
+				let newLineOfWalls = new linesOfWalls(position[i]);
+				
+				let myCatlog = catalogWalls[getRandomInt(7)];
+				
 				let newWall = new wall(myRandomWalls(), newLineOfWalls.y, myCatlog);
+				
 				console.log(newWall.x);
 				newLineOfWalls.addWalls(newWall);
-
+				
 				let newWall2 = new wall(myRandomWalls(), newLineOfWalls.y, myCatlog);
 				newLineOfWalls.addWalls(newWall2);
 
-
 				theWalls.addLine(newLineOfWalls);
 			}
-
 		} 
 	}
-	
-	
 	myReq = requestAnimationFrame(main);
-    
 }
 
 
 /***************************************************************************
 						Fonction principale
 ***************************************************************************/
-
 
 var main = function(){
 	
@@ -661,18 +627,21 @@ var main = function(){
 		if(gameInProgress){
 		myReq = requestAnimationFrame(main);
 		}
-		
 	}
 	else{
 		myReq = w.cancelAnimationFrame(main);
 		
 		if(!gameInProgress){
-			gameOver();
+			if(finish=="gaov"){
+				gameOver();
+			}
+			if(finish=="winov"){
+				gameWin();
+			}
+			
 		}
 		return;
-		
 	}
-	
 }
 
 /***************************************************************************
@@ -686,24 +655,22 @@ resolve = function(){
 	checkColision();
 	
 	//tests si gagné ou perdu
-	if(monstersCaught===0){
-        endGame(1);
+	if(lifes===0){
+        endGame();
+		finish  ="gaov";
         return false;
     }
 	if(winScore===3){
-		endGame(0);
+		win();
+		endGame();
+		finish ="winov";
 		return false;
-		}
-	
-	
-	
-	
-	//avance les monstres
-	
+	}
+
+	//monsters walk
 	for (var i = 0; i<theHorde.linesOfMonsters.length; i++){
 		var actualLineOfMonsters = theHorde.linesOfMonsters[i];
 		actualLineOfMonsters.walk();
-		
 	} 
 	
 	checkTimer();
@@ -715,7 +682,7 @@ resolve = function(){
 var checkTimer = function(){
 	if(minute ==0 && seconds==0 ){
 		resolveCondition = false;
-        --monstersCaught;
+        --lifes;
         clearInterval(setTimer);
 		init();
 		return;
@@ -723,7 +690,7 @@ var checkTimer = function(){
 }
 
 
-//collision avec les murs
+//check crash walls
 var checkStopWall = function(){
 	for(let lineW of theWalls.linesOfWalls){
 		for(let wall of lineW.walls){
@@ -735,7 +702,7 @@ var checkStopWall = function(){
 	return true;
 }
 
-//collision avec les monstres
+//if crash monsters do 
 var checkColision = function(){
 	
 	for(let line of theHorde.linesOfMonsters){
@@ -743,14 +710,14 @@ var checkColision = function(){
 			if(touchDown(monster, hero)){
 				dead.play();
 				resolveCondition = false;
-				monstersCaught--;
+				lifes--;
 				stopTimer;
 				init();
 				return;
 			}
 		}
 	}
-
+//A régler
 for(let lineNew of theHorde.linesOfMonsters){
         for(let i = 0; i< lineNew.monsters.length; i++){
 			if(lineNew.monsters[i].x>714){
@@ -766,7 +733,7 @@ for(let lineNew of theHorde.linesOfMonsters){
 }
 
 
-
+//function boolean to determine if the monster crash with hero
 var touchDown = function(horribleMonster, hero){
 		
 		if(horribleMonster.x >= hero.x + hero.width || horribleMonster.x + horribleMonster.width <= hero.x || horribleMonster.y <= hero.y - hero.height  || horribleMonster.y - horribleMonster.height >= hero.y){
@@ -775,6 +742,7 @@ var touchDown = function(horribleMonster, hero){
 		return true;
 	}
 
+//function boolean to determine if the walls crash with hero to step back
 var touchWall = function(bigWall, hero){	
 	if(bigWall.x >= hero.x + hero.width || bigWall.x + bigWall.width <= hero.x || bigWall.y <= hero.y - hero.height  || bigWall.y - bigWall.height >= hero.y){
 		return false;
@@ -786,7 +754,6 @@ var checkFinishLine = function(){
 		
     if (passFinishLine(hero)){
         stopTimer();
-		
 		winScore++;
 		resolveCondition = false;
 		init();
@@ -804,14 +771,17 @@ var passFinishLine = function(hero){
 		return true;
 	};
 
+var upRestart = function(){
+    document.getElementById("restartBtn").style.display = "block";
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
 
 var gameOver = function(){
 	document.getElementById("headerGame").style.display = "block";
     document.getElementById("restartBtn").style.display = "block";
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    ctx.drawImage(bgImageMainEnd,0,0,714,726);
-    ctx.drawImage(gaov,200,150);
+    ctx.drawImage(gaov,0,0,714,726);
 }
 
 var gameWin = function(){
@@ -820,7 +790,7 @@ var gameWin = function(){
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
     
     ctx.drawImage(bgImageMainEnd,0,0,714,726);
-    ctx.drawImage(winov,200,150);
+    ctx.drawImage(winov,150,150,400,320);
 }
 
 var restart = function(){
@@ -830,14 +800,11 @@ var restart = function(){
 var win = function(){
 	gameWin();
 	updateScore(player, scoreMinute, scoreSeconds);
+	displayRanking();
 	return;
 }
 
-var endGame = function(i){
-	if(i===0){
-		win();
-	}
-	displayRanking();
+var endGame = function(){
 	clearInterval(setTimer);
 	gameInProgress = false;
 	return;
@@ -869,33 +836,28 @@ var catalogWallsIsReallyReady = function(){
 var render= function(){
 	
 	if (levels[winScore].bgReady) {
-    //Image de fond
-
 		ctx.drawImage(levels[winScore].bgImageMain,0,0);    
-	
 	}
 
 	if (hero.heroReady) {
 		    
-	switch(status){
+	switch(status){//to determine each stands
 		
-		case "haut":
+		case "top":
 		ctx.drawImage(hero.heroImage,42,0,42,66,hero.x, hero.y,42,66);
 					break;
-		case "bas":
+		case "down":
 		ctx.drawImage(hero.heroImage,0,0,42,66,hero.x, hero.y,42,66);
 					break;
-		case "gauche":
+		case "left":
 		ctx.drawImage(hero.heroImage,84,0,42,66,hero.x, hero.y,42,66);     
 					break;
-		case "droite":
+		case "right":
 		ctx.drawImage(hero.heroImage,126,0,42,66,hero.x, hero.y,42,66);      
 					break;				
         default:
 		ctx.drawImage(hero.heroImage,42,0,42,66,hero.x, hero.y,42,66);
 		}
-		
-
 	}
 
     if(catalogIsReallyReady){
@@ -928,7 +890,7 @@ var render= function(){
 	ctx.font = "24px Helvetica";
 	ctx.textAlign = "left";
 	ctx.textBaseline = "top";
-	ctx.fillText("Vie(s): " + monstersCaught, 32, 10);
+	ctx.fillText("Vie(s): " + lifes, 32, 10);
     if(seconds<10){
         ctx.fillText("Time : 0" + minute +":0" + seconds, 550, 10);
     }
