@@ -9,17 +9,14 @@ html {
 html, body {
     height: 100%;
     margin: 0;
-    background-color: black;
+    background-color: #464646;
 }
 
-body{
-	background-repeat:no-repeat;
-}
+
+
 
 header{
 	height: 70px;
-    /*padding: 5px;
-    padding-bottom: 0;*/
     background-color: #454545;
     text-align: center;
     
@@ -28,40 +25,27 @@ header img{
    width:258px;
    height:65px;
 }
-/*
 
-/**ecran de jeu**/
-/*
-main section{
-  //  background-color: black;
-    margin-top: 0;
-}*/
-/*
-main section div{
-    background-color: black;
-    margin-left: 30%;
-    margin-right: 30%;
-    height: 800px;
-    width:700px;
-    border: 1px solid red;
-    color: white;
-   // max-width: 40em;
-    margin-bottom: 5px;
-}
-*/
 
 main{
 	display:flex;
 }
-#first{
-	width:40%;
-	height:100%;
-	color:white;
-	position:relative;
-	text-align:center;
-	padding:20px;
+
+p {
+    margin: 0 0 40px;
+    line-height: 28px;
 }
 
+#first {
+    width: 40%;
+    height: 100%;
+    color: white;
+    position: relative;
+    padding: 25px 30px 0px;
+	margin-top:25px;
+}
+
+#first 
 
 #second{
 	background-repeat:no-repeat;
@@ -69,7 +53,6 @@ main{
 
 #canvas-wrap{
 	position:relative;
-		/*document.getElementById("canvas-wrap").style.background-image = ""../images/TextureSolB23.jpg";*/
 }
 
 
@@ -79,49 +62,62 @@ main{
 	text-align:center;
 	color:white;
 	margin-top:100px;
+	padding-top:20px;
 }
 #cadreChoixPersonnage{
-	width:700px;
+	width:714px;
 	height:726px;
 	background-color:black;
 	position: relative;
 	
 }
 
-#third{
-	width:40%;
-	height:100%;
-	background-color:black;
-	padding: 5px;
-	position:relative;
-	display:flex;
-	flex-direction:column;
-	color:white;
-	font-size: 1.20em;
-	
+#third {
+    width: 40%;
+    height: 100%;
+    background-color: #464646;
+    padding: 5px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    font-size: 1.20em;
+    padding: 25px 15px 0px;
 }
 
 table {
-	border: medium solid red;
-	border-collapse: collapse;
+	/*border-collapse: collapse;*/
 	width: 100%%;
 }
 
 th {
 	font-family: monospace;
-	border: thin solid red;
+	/*border: thin solid red;*/
 	width: 50%;
 	padding: 5px;
 }
 
 td {
 	font-family: sans-serif;
-	border: thin solid red;
+	border: thin solid #383838;
 	width: 50%;
 	padding: 5px;
 	text-align: center;
 	background-color: none;
 }
+
+#ranking tbody:nth-child(1) {
+	background-color: black;
+}
+
+#ranking tbody:nth-child(odd){ 
+		background: #5C5453;
+	}
+
+#ranking tbody:nth-child(even){
+		background: #524952;
+	}
+
 
 tr :first-child {
 	width: 20%;
@@ -186,25 +182,40 @@ caption {
 }
 
 #startBtn{
-	height:45px;
-	width:120px;
+	height:75px;
+	width:80px;
 	border:2px black;
-	background-color:red;
-	border-radius:20px;
+	background-color:#D02A28;
 	text-align:center;
-	color:white;
+	position: relative;
 	margin-top:20px;
+	color:white;
+	-webkit-transition: all 0.1s;
+    -moz-transition: all 0.1s;
+    transition: all 0.1s;
+    -webkit-box-shadow: 0px 5px 0px #84261a;
+    -moz-box-shadow: 0px 5px 0px #84261a;
+    box-shadow: 0px 5px 0px #84261a;
+	border-radius:70px;
+	font-size: 17px;
 	
 }
-
 #restartBtn{
-	height:45px;
-	width:120px;
+	height:80px;
+	width:80px;
 	border:2px black;
-	background-color:red;
-	border-radius:20px;
+	background-color:#D02A28;
 	text-align:center;
 	position: relative;
 	display:none;
-	
+	margin-top:20px;
+	color:white;
+	-webkit-transition: all 0.1s;
+    -moz-transition: all 0.1s;
+    transition: all 0.1s;
+    -webkit-box-shadow: 0px 5px 0px #84261a;
+    -moz-box-shadow: 0px 5px 0px #84261a;
+    box-shadow: 0px 5px 0px #84261a;
+	border-radius:70px;
+	font-size: 17px;
 }

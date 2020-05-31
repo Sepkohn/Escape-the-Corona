@@ -524,7 +524,8 @@ var myRandom = function(newLineOfMonsters, myCatlog){
 	var x;
 	while(!position){
 		position = true;
-		x = (Math.random()*(500+maxWidth)) - maxWidth ;
+		x = (Math.random()*(600)) - maxWidth ;
+		
 		for(let monster of newLineOfMonsters.monsters){
 			if(x< monster.x+maxWidth && x + maxWidth> monster.x){
 				position=false;
