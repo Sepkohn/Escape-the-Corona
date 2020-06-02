@@ -486,7 +486,7 @@ var launchGame = function () {
                 hero.heroImage.src=url + "sprite4.png";
                 break;
     }
-    //ambiance.play();
+    ambiance.play();
 }
 
 /***************************************************************************
