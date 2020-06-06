@@ -45,6 +45,7 @@ var player = "";
 //geolocalisation du joueur
 var geoLocUser = "";
 
+getLocation();
 
 /***************************************************************************
 					initialisation des niveaux
@@ -455,8 +456,7 @@ var checkBeforeStart = function () {
     }else{
         launchGame();
 		document.getElementById("startBtn").style.visibility ="hidden";
-		getLocation();
-
+		
 		geoLocUser = localStorage.getItem("geoStorage");
 		geoLocUser = geoLocUser.substring(1, geoLocUser.length); //Delete first character
 		geoLocUser = geoLocUser.slice(0, -1); //Delete last character
